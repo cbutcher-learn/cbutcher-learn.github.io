@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flipt(ed) — Christian Butcher</title>
+  <meta name="description" content="Flipt(ed): A mastery-based learning platform that reimagines how students progress." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================================================
+       TOKENS — must match index.html exactly
+    ============================================================ */
+    :root {
+      --color-bg:        #F2EFE9;
+      --color-navy:      #1E2D4A;
+      --color-rust:      #C0502A;
+      --color-gold:      #D4A017;
+      --color-green:     #4A7C59;
+      --color-text:      #2A2A2A;
+      --color-muted:     #6B6B6B;
+      --color-card-bg:   #ECEAE4;
+      --color-card-bg2:  #F5F3EE;
+      --font-body:       'Inter', sans-serif;
+      --font-display:    'Playfair Display', serif;
+      --max-width:       800px;
+      --nav-height:      64px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.7;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ============================================================
+       NAV — identical to index.html
+    ============================================================ */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-height);
+      background: var(--color-bg);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      z-index: 100;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .nav-logo {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--color-navy);
+      letter-spacing: -0.5px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--color-navy);
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: background 0.15s;
+    }
+    .nav-links a:hover { background: rgba(0,0,0,0.06); }
+
+    .nav-dropdown { position: relative; }
+
+    .nav-dropdown-toggle {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--color-navy);
+      padding: 6px 12px;
+      border-radius: 6px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-family: var(--font-body);
+      transition: background 0.15s;
+    }
+    .nav-dropdown-toggle:hover,
+    .nav-dropdown.open .nav-dropdown-toggle { background: rgba(0,0,0,0.06); }
+
+    .nav-dropdown-toggle svg {
+      width: 12px; height: 12px;
+      transition: transform 0.2s;
+    }
+    .nav-dropdown.open .nav-dropdown-toggle svg { transform: rotate(180deg); }
+
+    .nav-dropdown-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+      min-width: 200px;
+      padding: 8px 0;
+      z-index: 200;
+    }
+    .nav-dropdown.open .nav-dropdown-menu { display: block; }
+
+    .nav-dropdown-menu a {
+      display: block;
+      padding: 10px 20px;
+      font-size: 15px;
+      font-weight: 400;
+      text-transform: none;
+      letter-spacing: 0;
+      color: var(--color-navy);
+      border-radius: 0;
+      transition: background 0.12s;
+    }
+    .nav-dropdown-menu a:hover { background: #F5F3EE; }
+    /* Highlight current page in dropdown */
+    .nav-dropdown-menu a.active { font-weight: 600; color: var(--color-rust); }
+
+    .btn-reach-out {
+      background: var(--color-navy);
+      color: white !important;
+      padding: 9px 18px !important;
+      border-radius: 8px !important;
+      font-size: 13px !important;
+      font-weight: 600 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.06em !important;
+      transition: opacity 0.15s !important;
+    }
+    .btn-reach-out:hover { opacity: 0.85 !important; }
+
+    /* ============================================================
+       PAGE LAYOUT
+    ============================================================ */
+    .page {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: calc(var(--nav-height) + 60px) 40px 100px;
+    }
+
+    /* ============================================================
+       BACK LINK
+    ============================================================ */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 48px;
+      transition: color 0.15s;
+    }
+    .back-link:hover { color: var(--color-navy); }
+    .back-link svg { width: 14px; height: 14px; }
+
+    /* ============================================================
+       PROJECT HERO
+    ============================================================ */
+    .project-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--color-green);
+      margin-bottom: 16px;
+    }
+
+    .project-title {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: clamp(36px, 5vw, 56px);
+      color: var(--color-navy);
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    .project-tagline {
+      font-size: 19px;
+      color: var(--color-muted);
+      line-height: 1.6;
+      max-width: 640px;
+      margin-bottom: 36px;
+    }
+
+    /* Meta chips */
+    .project-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 56px;
+    }
+
+    .meta-chip {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 20px;
+      background: var(--color-card-bg);
+      color: var(--color-navy);
+    }
+
+    /* ============================================================
+       TLDR CARD
+    ============================================================ */
+    .tldr {
+      background: var(--color-navy);
+      border-radius: 16px;
+      padding: 36px 40px;
+      margin-bottom: 64px;
+    }
+
+    .tldr-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--color-gold);
+      margin-bottom: 16px;
+    }
+
+    .tldr-headline {
+      font-size: 18px;
+      font-weight: 600;
+      color: white;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .tldr-points {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .tldr-points li {
+      font-size: 15px;
+      color: rgba(255,255,255,0.75);
+      padding-left: 20px;
+      position: relative;
+      line-height: 1.5;
+    }
+
+    .tldr-points li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--color-gold);
+    }
+
+    /* ============================================================
+       DASHBOARD IMAGE
+    ============================================================ */
+    .dashboard-wrap {
+      background: var(--color-card-bg);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 72px;
+    }
+
+    .dashboard-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .dashboard-caption {
+      padding: 16px 24px;
+      font-size: 13px;
+      color: var(--color-muted);
+      font-style: italic;
+    }
+
+    /* ============================================================
+       CASE STUDY BODY
+    ============================================================ */
+    .case-study h2 {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 24px;
+      color: var(--color-navy);
+      margin-top: 60px;
+      margin-bottom: 16px;
+      padding-top: 60px;
+      border-top: 1px solid rgba(0,0,0,0.08);
+    }
+
+    .case-study h2:first-child {
+      margin-top: 0;
+      padding-top: 0;
+      border-top: none;
+    }
+
+    .case-study h3 {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--color-navy);
+      margin-top: 32px;
+      margin-bottom: 10px;
+    }
+
+    .case-study p {
+      font-size: 16px;
+      color: var(--color-text);
+      line-height: 1.8;
+      margin-bottom: 18px;
+    }
+
+    .case-study strong { color: var(--color-navy); }
+
+    /* Stat callouts */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin: 32px 0;
+    }
+
+    .stat-card {
+      background: var(--color-card-bg);
+      border-radius: 12px;
+      padding: 24px 20px;
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--color-navy);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .stat-number.rust { color: var(--color-rust); }
+    .stat-number.green { color: var(--color-green); }
+
+    .stat-label {
+      font-size: 13px;
+      color: var(--color-muted);
+      line-height: 1.4;
+    }
+
+    /* Competitive landscape table */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 28px 0;
+      border-radius: 12px;
+      border: 1px solid rgba(0,0,0,0.08);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    thead tr {
+      background: var(--color-navy);
+      color: white;
+    }
+
+    thead th {
+      padding: 14px 18px;
+      text-align: left;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    tbody tr { border-bottom: 1px solid rgba(0,0,0,0.06); }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:nth-child(even) { background: var(--color-card-bg2); }
+
+    tbody td {
+      padding: 14px 18px;
+      vertical-align: top;
+      line-height: 1.5;
+      color: var(--color-text);
+    }
+
+    tbody td:first-child {
+      font-weight: 600;
+      color: var(--color-navy);
+      white-space: nowrap;
+    }
+
+    /* Decision cards */
+    .decision-card {
+      background: var(--color-card-bg2);
+      border-left: 3px solid var(--color-navy);
+      border-radius: 0 12px 12px 0;
+      padding: 24px 28px;
+      margin: 24px 0;
+    }
+
+    .decision-card .decision-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-rust);
+      margin-bottom: 8px;
+    }
+
+    .decision-card h3 {
+      margin-top: 0;
+      margin-bottom: 12px;
+    }
+
+    .decision-card p { margin-bottom: 10px; }
+    .decision-card p:last-child { margin-bottom: 0; }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer {
+      background: var(--color-navy);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 24px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-copy {
+      font-size: 13px;
+      color: rgba(255,255,255,0.45);
+    }
+
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a {
+      font-size: 13px;
+      color: rgba(255,255,255,0.45);
+      transition: color 0.15s;
+    }
+    .footer-links a:hover { color: white; }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; }
+      .page { padding: calc(var(--nav-height) + 40px) 20px 80px; }
+      .tldr { padding: 28px 24px; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      footer { padding: 20px; flex-direction: column; gap: 12px; text-align: center; }
+      .nav-links a:not(.btn-reach-out) { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAV
+  ============================================================ -->
+  <nav>
+    <a href="index.html" class="nav-logo">CB</a>
+
+    <div class="nav-links">
+      <div class="nav-dropdown" id="projectsDropdown">
+        <button class="nav-dropdown-toggle" onclick="toggleDropdown()" aria-expanded="false" aria-haspopup="true">
+          Projects
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="2,4 6,8 10,4"/>
+          </svg>
+        </button>
+        <div class="nav-dropdown-menu">
+          <a href="flipted.html" class="active">Flipt(ed)</a>
+          <a href="#">Magic Food Truck</a>
+          <a href="#">Neolithic</a>
+          <a href="#">Finding Mino</a>
+          <a href="#">Writing Samples</a>
+        </div>
+      </div>
+      <a href="index.html#about">About</a>
+      <a href="index.html#contact" class="btn-reach-out">Reach Out</a>
+    </div>
+  </nav>
+
+
+  <!-- ============================================================
+       PAGE CONTENT
+  ============================================================ -->
+  <main class="page">
+
+    <a href="index.html" class="back-link">
+      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 2L4 7l5 5"/>
+      </svg>
+      Back to Home
+    </a>
+
+    <!-- Hero -->
+    <p class="project-label">Product Management · EdTech · Learning Design</p>
+    <h1 class="project-title">Flipt(ed)</h1>
+    <p class="project-tagline">A mastery-based learning platform that reimagines how students see and understand their own progress.</p>
+
+    <div class="project-meta">
+      <span class="meta-chip">Product Management</span>
+      <span class="meta-chip">UX Research</span>
+      <span class="meta-chip">Pilot Study · 70 Students</span>
+      <span class="meta-chip">K–12 EdTech</span>
+      <span class="meta-chip">Gamification</span>
+    </div>
+
+    <!-- TL;DR -->
+    <div class="tldr">
+      <p class="tldr-label">TL;DR</p>
+      <p class="tldr-headline">Existing mastery-learning tools left students in the dark about their own performance. I built, piloted, and iterated on a gamified student dashboard to close that gap — and let the data tell me what to cut.</p>
+      <ul class="tldr-points">
+        <li>Identified a student-facing visibility gap ignored by every major competitor</li>
+        <li>Ran a semester-long pilot with 70 students to validate desirability before investing in engineering</li>
+        <li>74% of students said the dashboard clarified their academic trajectory</li>
+        <li>Cut competitive features (leaderboards, marketplaces) when data showed they created anxiety, not engagement</li>
+        <li>Repositioned the product from a standalone LMS to a modular layer on top of existing tools</li>
+        <li>Pivoted from async self-pacing to teacher-facilitated guardrails after a 69% target-completion drop-off</li>
+      </ul>
+    </div>
+
+    <!-- Dashboard image -->
+    <div class="dashboard-wrap">
+      <!-- UPDATE: make sure Student_Home_Dashboard_Clean.png is in your images/ folder -->
+      <img src="images/Student_Home_Dashboard_Clean.png" alt="Flipt(ed) student home dashboard showing Knowledge Targets, Skill Targets, Health points, and EXP metrics" />
+      <p class="dashboard-caption">The student-facing home dashboard, showing mastery targets, progress indicators, health and EXP feedback mechanics, and links to external tools.</p>
+    </div>
+
+
+    <!-- Case Study -->
+    <div class="case-study">
+
+      <h2>The Problem: The Student-Facing Visibility Gap</h2>
+      <p>Existing software solutions supporting mastery-based educational models optimize strictly for the administrative persona — teachers and administrators — leaving the primary user, the student, completely isolated from their own performance metrics.</p>
+      <p>For secondary students (ages 11–18), this lack of transparent data architecture triggers a critical drop-off in student agency. Learning science indicates that academic success at this developmental stage heavily relies on building a student's <strong>feedback literacy</strong> — their capacity to understand, reflect upon, and self-regulate their response to learning targets. When students cannot visualize their immediate trajectory toward an objective, it creates an "invisibility of engagement" gap. Without transparent, real-time insight into the why and where of their progress, secondary learners fail to develop the metacognitive habits required to sustain motivation in mastery-based environments.</p>
+      <p>Flipt(ed) was built to cross this gap by turning performance data into a transparent, student-centered interface.</p>
+
+      <h2>Competitive Landscape &amp; Market Opportunity</h2>
+      <p>A comprehensive market analysis of the mastery learning space revealed a clear product gap between administrative utility and user engagement:</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Competitor</th>
+              <th>Primary Persona</th>
+              <th>Core Strength</th>
+              <th>Product Limitation / Market Gap</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>MasteryConnect</td>
+              <td>Teachers / Admins</td>
+              <td>Robust standards-aligned backend reporting</td>
+              <td>Poor UX/UI for students; dashboard treated as a low-priority afterthought</td>
+            </tr>
+            <tr>
+              <td>Khan Academy</td>
+              <td>Students</td>
+              <td>Strong gamified progression mechanics</td>
+              <td>Rigid, closed ecosystem; zero customization for district-specific curricula</td>
+            </tr>
+            <tr>
+              <td>Classcraft</td>
+              <td>Students</td>
+              <td>High engagement via generic game mechanics</td>
+              <td>Extrinsic motivators (points/levels) decouple from actual learning objectives</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>No solution on the market combined <strong>curriculum-agnostic mastery tracking</strong> with <strong>intrinsic gamification mechanics</strong> designed to keep learning objectives — rather than superficial point accumulation — at the center of the student experience.</p>
+
+      <h2>Validating Assumptions via a Low-Code MVP</h2>
+      <p>To de-risk the product concept without engineering overhead, I executed a dual-phase validation strategy.</p>
+
+      <h3>Phase 1: Alpha Testing &amp; Persona Validation</h3>
+      <p>I put an early prototype in front of four mastery-learning educators to test the value proposition — validating seller/user desirability and uncovering immediate workflow friction. The core feedback mechanism resonated strongly, validating the underlying value hypothesis. However, this phase also exposed a critical infrastructure bottleneck: a Google Sheets backend would introduce severe scalability risks in a live classroom environment.</p>
+
+      <h3>Phase 2: The Live Pilot</h3>
+      <p>Accepting the technical debt of a low-code infrastructure as a calculated risk to prove user demand, I prioritized speed-to-market. I launched a <strong>semester-long pilot with 70 secondary students</strong> across four distinct cohorts. Rather than optimizing for technical architecture, this pilot was instrumented strictly to measure user behavior, dashboard usability, and student motivation — tracked via pre-, mid-, and post-pilot surveys throughout the lifecycle.</p>
+
+      <h2>Post-Pilot Results</h2>
+
+      <h3>User Desirability — The Success Signals</h3>
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-number green">64%</div>
+          <div class="stat-label">rated the interface as highly intuitive</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number green">74%</div>
+          <div class="stat-label">said the dashboard clarified their academic trajectory</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number green">67%</div>
+          <div class="stat-label">preferred Flipt(ed) over their district-mandated LMS alone</div>
+        </div>
+      </div>
+      <p>Pilot data also served as a feature-prioritization matrix. <strong>66% of users prioritized intrinsic mastery feedback</strong> and <strong>54% valued experiential progression (EXP)</strong>. Competitive mechanics like leaderboards cratered at 29% engagement — providing a clear, data-driven mandate to deprecate them entirely.</p>
+
+      <h3>Technical Feasibility — The Failure Signals</h3>
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-number rust">41%</div>
+          <div class="stat-label">cited latency, sync lag, and crashing as their primary friction point</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number rust">69%</div>
+          <div class="stat-label">failed to complete at least half of their self-paced learning targets</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number rust">29%</div>
+          <div class="stat-label">engagement with competitive features like leaderboards</div>
+        </div>
+      </div>
+      <p>While the Google Sheets backend confirmed it was non-viable for production, it served its purpose: it <strong>proved user demand before allocating engineering capital</strong>. The 69% target drop-off — amplified by remote pandemic learning — forced a critical rethink of who the product was really designed for.</p>
+
+      <h2>Four Core Product Decisions</h2>
+
+      <div class="decision-card">
+        <p class="decision-label">Decision 1</p>
+        <h3>Prioritize the Student Persona Over Administrative Utilities</h3>
+        <p><strong>Context:</strong> Legacy mastery platforms optimized for district-level admins, relegating the student dashboard to a secondary, data-dense view.</p>
+        <p><strong>Decision:</strong> Treat the student as the primary user. Funnel all engineering resources into an intuitive, gamified student progression dashboard. Keep administrative tools to a bare-minimum ingestion script.</p>
+        <p><strong>Impact:</strong> 67% of students actively preferred our interface over their primary LMS.</p>
+      </div>
+
+      <div class="decision-card">
+        <p class="decision-label">Decision 2</p>
+        <h3>Ruthlessly Deprecate Low-Value Gamification Mechanics</h3>
+        <p><strong>Context:</strong> Early ideation included leaderboards, marketplaces, EXP, and objective tracking.</p>
+        <p><strong>Decision:</strong> When pilot telemetry showed competitive features engaged only 29% of users — and actively introduced anxiety — I cut them from the roadmap entirely. Development focus shifted to progress-visualization (66%) and experiential progression (54%).</p>
+        <p><strong>Impact:</strong> Optimized the development runway, stripped cognitive noise, and ensured game mechanics reinforced learning objectives rather than distracting from them.</p>
+      </div>
+
+      <div class="decision-card">
+        <p class="decision-label">Decision 3</p>
+        <h3>Reposition From Standalone LMS to Integration Layer</h3>
+        <p><strong>Context:</strong> The long-term vision was a comprehensive standalone LMS. But school districts mandate specific enterprise tools, creating immense switching costs and adoption friction.</p>
+        <p><strong>Decision:</strong> Reposition Flipt(ed) as a modular optimization layer that sits on top of the incumbent LMS — turning a technical constraint into a friction-reduction strategy.</p>
+        <p><strong>Impact:</strong> Dramatically lowered adoption barriers, proving that operating within a mandated ecosystem is a faster path to product adoption than fighting it.</p>
+      </div>
+
+      <div class="decision-card">
+        <p class="decision-label">Decision 4</p>
+        <h3>Replace Asynchronous Autonomy With Synchronous Guardrails</h3>
+        <p><strong>Context:</strong> The platform was designed for fully asynchronous, student-paced navigation. User outcomes showed a 69% drop-off in target completion driven by the developmental limits of a middle-school demographic in remote environments.</p>
+        <p><strong>Decision:</strong> Abandon the pure async roadmap. Refactor the PRD to introduce structured, synchronous pacing guardrails managed via a centralized teacher control panel.</p>
+        <p><strong>Impact:</strong> Acknowledged a hard environmental truth: in K–12 EdTech, software cannot substitute for operational human guardrails. The product was redesigned to empower teacher intervention, not bypass it.</p>
+      </div>
+
+      <h2>Retrospective</h2>
+      <p>If executing this initiative again under similar constraints, I would shift from full-scale product development to a highly targeted, modular discovery process — isolating a single high-impact friction point (progress-visualization) and building a bulletproof integration layer for existing LMS ecosystems.</p>
+      <p>My subsequent experience leading a cross-functional squad of university engineering and UX design students validated this approach. Managing the product team required translating qualitative pilot insights into clear technical requirements, running agile sprint structures, and facilitating design sprints. It reinforced my approach to leadership: <strong>a PM's highest leverage activity is not building, but ruthlessly prioritizing the roadmap so that cross-functional talent can execute without friction.</strong></p>
+
+      <h2>What Came Next: The Mastery Quiz Game</h2>
+      <p>The clear signals extracted from the Flipt(ed) pilot pointed to an unaddressed market opportunity: what if a standalone, gamified formative assessment tool could instantly map student performance to mastery criteria for both learners and educators simultaneously?</p>
+      <p>By deprecating the complex, low-retention aspects of the original ecosystem and isolating the highest-value feature — immediate feedback tied to clear learning targets — I initiated development on a spin-off product: the <strong>Mastery Quiz Game</strong>. This strategic pivot scales down technical risk, fits cleanly into existing classroom operational models, and directly captures the market gap identified during the MVP phase.</p>
+
+    </div>
+  </main>
+
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer>
+    <p class="footer-copy">&copy; <span id="year"></span> Christian Butcher. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="https://www.linkedin.com/in/christianbutcher/" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </footer>
+
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    function toggleDropdown() {
+      const dropdown = document.getElementById('projectsDropdown');
+      const isOpen = dropdown.classList.toggle('open');
+      dropdown.querySelector('.nav-dropdown-toggle').setAttribute('aria-expanded', isOpen);
+    }
+
+    document.addEventListener('click', function(e) {
+      const dropdown = document.getElementById('projectsDropdown');
+      if (!dropdown.contains(e.target)) {
+        dropdown.classList.remove('open');
+        dropdown.querySelector('.nav-dropdown-toggle').setAttribute('aria-expanded', 'false');
+      }
+    });
+  </script>
+
+</body>
+</html>
