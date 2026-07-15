@@ -7,7 +7,7 @@
   <meta name="description" content="Christian Butcher — Product Manager and Content Creator bridging learning design and interactive storytelling." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&family=EB+Garamond:wght@400;500&family=Fredericka+the+Great&family=Architects+Daughter&family=Stint+Ultra+Expanded&family=Libre+Baskerville:ital@1&family=Black+Han+Sans&family=Loved+by+the+King&family=Boogaloo&family=Comfortaa:wght@600&display=swap" rel="stylesheet">
 
   <style>
     /* ============================================================
@@ -544,8 +544,9 @@
        NAV
   ============================================================ -->
   <nav>
-    <a href="#" class="nav-logo">CB</a>
-    <!-- Replace "CB" above with an <img src="logo.svg"> if you have a logo file -->
+    <a href="#" class="nav-logo">
+      <img src="assets/CB_Logo_(1)_1778781521551-DI4tMfjY.png" alt="CB" style="height: 40px; width: auto;" />
+    </a>
 
     <div class="nav-links">
       <div class="nav-dropdown" id="projectsDropdown">
@@ -575,17 +576,50 @@
        HERO
   ============================================================ -->
   <section class="hero">
-    <p class="hero-eyebrow">Hi, I'm Christian</p>
-    <h1 class="hero-headline">
-      creative people <span class="accent-rust">solve messy problems</span>, build meaningful things, and make complicated ideas <span class="accent-gold">easier to understand.</span>
-    </h1>
-    <div>
-      <a href="#work" class="btn-primary">
-        View my work
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M3 8h10M9 4l4 4-4 4"/>
-        </svg>
-      </a>
+    <div style="max-width: 700px;">
+      <div style="font-size: 40px; line-height: 1.12; font-weight: 700; color: var(--color-navy); letter-spacing: 0.04em; text-transform: uppercase;">Give the people<br>what they want.</div>
+      <div style="font-size: 56px; line-height: 1.1; color: var(--color-rust); font-family: 'Playfair Display', serif; font-style: italic; font-weight: 700; letter-spacing: -1.5px;">Ask questions.</div>
+      <div style="font-size: 60px; line-height: 1.1; color: var(--color-gold); font-weight: 600; font-family: 'Comfortaa', cursive;">Listen.</div>
+      <div style="display: flex; align-items: baseline; gap: 2px;">
+        <span style="font-family:'Fredericka the Great',serif; font-size:66px; color:var(--color-green); line-height:1.1;">E</span>
+        <span style="font-family:'Architects Daughter',cursive; font-size:56px; color:var(--color-green); line-height:1.1;">x</span>
+        <span style="font-family:'Stint Ultra Expanded',serif; font-size:44px; color:transparent; -webkit-text-stroke:1.5px var(--color-green); line-height:1.1;">p</span>
+        <span style="font-family:'Libre Baskerville',serif; font-style:italic; font-size:64px; color:var(--color-green); line-height:1.1;">e</span>
+        <span style="font-family:'Black Han Sans',sans-serif; font-size:68px; color:transparent; -webkit-text-stroke:2px var(--color-green); line-height:1.1;">r</span>
+        <span style="font-family:'Loved by the King',cursive; font-size:78px; color:var(--color-green); line-height:1.1;">i</span>
+        <span style="font-family:'Fredericka the Great',serif; font-size:66px; color:var(--color-green); line-height:1.1;">m</span>
+        <span style="font-family:'Boogaloo',cursive; font-size:70px; color:transparent; -webkit-text-stroke:2px var(--color-green); line-height:1.1;">e</span>
+        <span style="font-family:'Stint Ultra Expanded',serif; font-size:44px; color:transparent; -webkit-text-stroke:1.5px var(--color-green); line-height:1.1;">n</span>
+        <span style="font-family:'Architects Daughter',cursive; font-size:56px; color:var(--color-green); line-height:1.1;">t</span>
+        <span style="font-family:'Libre Baskerville',serif; font-style:italic; font-size:64px; color:var(--color-green); line-height:1.1;">.</span>
+      </div>
+      <div style="font-size: 14px; font-style: italic; color: var(--color-muted); font-family: 'Playfair Display', serif; margin-top: 16px; margin-bottom: 48px;">(What people need is a different story.)</div>
+    </div>
+
+    <!-- Logo + Hi I'm Christian -->
+    <div style="display: flex; align-items: center; gap: 24px; margin-bottom: 48px;">
+      <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px;">
+        <img src="assets/CB_Logo_(1)_1778781521551-DI4tMfjY.png" alt="CB Logo" style="height: 100px; width: auto;" />
+        <p style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-green); margin: 0;">Hi, I'm Christian</p>
+      </div>
+      <div style="flex: 1; height: 1px; background: rgba(0,0,0,0.1);"></div>
+    </div>
+
+    <!-- About me -->
+    <div style="display: grid; grid-template-columns: 1fr 1.5fr; gap: 48px; align-items: start; max-width: 860px;">
+      <div style="background: #DDD9CF; border-radius: 16px; aspect-ratio: 3/4; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+        <!-- UPDATE: Replace the div below with <img src="assets/your-photo.jpg" alt="Christian Butcher" style="width:100%;height:100%;object-fit:cover;" /> when you have a photo -->
+        <div style="width: 55%; aspect-ratio: 1; background: #C8C3B6; border-radius: 50%;"></div>
+      </div>
+      <div>
+        <p style="font-family: 'EB Garamond', Georgia, serif; font-style: normal; font-size: 20px; line-height: 1.8; color: var(--color-text); margin-bottom: 36px;">"I've always loved movies, and as long as I can remember Jurassic Park is my favorite (just the original). It makes you feel wonder and awe. It makes you think critically about how we engage in the world. And in the end, it makes you believe in humanity's ability to overcome mistakes and focus on a brighter future. That film encompasses everything I want to put out into the world."</p>
+        <a href="#work" class="btn-primary">
+          View my work
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;">
+            <path d="M3 8h10M9 4l4 4-4 4"/>
+          </svg>
+        </a>
+      </div>
     </div>
   </section>
 
