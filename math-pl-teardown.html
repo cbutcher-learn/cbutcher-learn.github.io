@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Math PL Teardown — Christian Butcher</title>
+  <meta name="description" content="A product teardown of a K–8 math curriculum's Professional Learning program." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&family=EB+Garamond:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --color-bg:       #F2EFE9;
+      --color-navy:     #1E2D4A;
+      --color-rust:     #C0502A;
+      --color-gold:     #D4A017;
+      --color-green:    #4A7C59;
+      --color-text:     #2A2A2A;
+      --color-muted:    #6B6B6B;
+      --color-card-bg:  #ECEAE4;
+      --color-card-bg2: #F5F3EE;
+      --font-body:      'Inter', sans-serif;
+      --font-display:   'Playfair Display', serif;
+      --font-garamond:  'EB Garamond', Georgia, serif;
+      --nav-height:     64px;
+      --side-nav-width: 220px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); background: var(--color-bg); color: var(--color-text); line-height: 1.7; }
+    a { color: inherit; text-decoration: none; }
+    img, svg { display: block; max-width: 100%; }
+
+    /* ============================================================ NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: var(--nav-height);
+      background: var(--color-bg);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px; z-index: 200;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    .nav-logo { font-weight: 700; font-size: 18px; color: var(--color-navy); }
+    .nav-logo img { height: 40px; width: auto; }
+    .nav-links { display: flex; align-items: center; gap: 8px; }
+    .nav-links a {
+      font-size: 13px; font-weight: 500; letter-spacing: 0.04em;
+      text-transform: uppercase; color: var(--color-navy);
+      padding: 6px 12px; border-radius: 6px; transition: background 0.15s;
+    }
+    .nav-links a:hover { background: rgba(0,0,0,0.06); }
+    .nav-dropdown { position: relative; }
+    .nav-dropdown-toggle {
+      font-size: 13px; font-weight: 500; letter-spacing: 0.04em;
+      text-transform: uppercase; color: var(--color-navy);
+      padding: 6px 12px; border-radius: 6px;
+      background: none; border: none; cursor: pointer;
+      display: flex; align-items: center; gap: 4px;
+      font-family: var(--font-body); transition: background 0.15s;
+    }
+    .nav-dropdown-toggle:hover, .nav-dropdown.open .nav-dropdown-toggle { background: rgba(0,0,0,0.06); }
+    .nav-dropdown-toggle svg { width: 12px; height: 12px; transition: transform 0.2s; }
+    .nav-dropdown.open .nav-dropdown-toggle svg { transform: rotate(180deg); }
+    .nav-dropdown-menu {
+      display: none; position: absolute; top: calc(100% + 8px); left: 0;
+      background: white; border-radius: 10px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+      min-width: 220px; padding: 8px 0; z-index: 300;
+    }
+    .nav-dropdown.open .nav-dropdown-menu { display: block; }
+    .nav-dropdown-menu a {
+      display: block; padding: 10px 20px; font-size: 15px;
+      font-weight: 400; text-transform: none; letter-spacing: 0;
+      color: var(--color-navy); transition: background 0.12s;
+    }
+    .nav-dropdown-menu a:hover { background: #F5F3EE; }
+    .nav-dropdown-menu a.active { font-weight: 600; color: var(--color-rust); }
+    .btn-reach-out {
+      background: var(--color-navy); color: white !important;
+      padding: 9px 18px !important; border-radius: 8px !important;
+      font-size: 13px !important; font-weight: 600 !important;
+      text-transform: uppercase !important; letter-spacing: 0.06em !important;
+      transition: opacity 0.15s !important;
+    }
+    .btn-reach-out:hover { opacity: 0.85 !important; }
+
+    /* ============================================================ LAYOUT */
+    .page-layout {
+      display: flex;
+      padding-top: var(--nav-height);
+      min-height: 100vh;
+    }
+
+    /* ============================================================ SIDE NAV */
+    .side-nav {
+      position: sticky;
+      top: var(--nav-height);
+      height: calc(100vh - var(--nav-height));
+      width: var(--side-nav-width);
+      flex-shrink: 0;
+      padding: 40px 0 40px 32px;
+      overflow-y: auto;
+      border-right: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .side-nav-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--color-muted);
+      margin-bottom: 16px;
+    }
+
+    .side-nav a {
+      display: block;
+      font-size: 13px; font-weight: 500;
+      color: var(--color-muted);
+      padding: 6px 0;
+      border-left: 2px solid transparent;
+      padding-left: 12px;
+      margin-left: -12px;
+      transition: color 0.15s, border-color 0.15s;
+      line-height: 1.4;
+    }
+    .side-nav a:hover { color: var(--color-navy); }
+    .side-nav a.active { color: var(--color-navy); font-weight: 600; border-left-color: var(--color-rust); }
+
+    /* ============================================================ MAIN CONTENT */
+    .main-content {
+      flex: 1;
+      min-width: 0;
+      padding: 60px 64px 120px 64px;
+      max-width: 860px;
+    }
+
+    /* ============================================================ BACK LINK */
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 13px; font-weight: 600; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--color-muted);
+      margin-bottom: 48px; transition: color 0.15s;
+    }
+    .back-link:hover { color: var(--color-navy); }
+
+    /* ============================================================ HERO */
+    .project-label {
+      font-size: 12px; font-weight: 600; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--color-green); margin-bottom: 16px;
+    }
+    .project-title {
+      font-weight: 700; font-size: clamp(32px, 4vw, 48px);
+      color: var(--color-navy); line-height: 1.1; margin-bottom: 16px;
+    }
+    .project-tagline {
+      font-size: 18px; color: var(--color-muted);
+      line-height: 1.6; max-width: 640px; margin-bottom: 32px;
+    }
+    .project-meta {
+      display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 48px;
+    }
+    .meta-chip {
+      font-size: 12px; font-weight: 600; letter-spacing: 0.06em;
+      text-transform: uppercase; padding: 5px 12px;
+      border-radius: 20px; background: var(--color-card-bg);
+      color: var(--color-navy);
+    }
+
+    /* ============================================================ TLDR */
+    .tldr {
+      background: var(--color-navy); border-radius: 16px;
+      padding: 36px 40px; margin-bottom: 56px;
+    }
+    .tldr-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--color-gold); margin-bottom: 14px;
+    }
+    .tldr-headline {
+      font-size: 17px; font-weight: 600; color: white;
+      line-height: 1.5; margin-bottom: 20px;
+    }
+    .tldr-points { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .tldr-points li {
+      font-size: 15px; color: rgba(255,255,255,0.75);
+      padding-left: 20px; position: relative; line-height: 1.5;
+    }
+    .tldr-points li::before { content: '→'; position: absolute; left: 0; color: var(--color-gold); }
+
+    /* ============================================================ CHECKLIST / JUMP NAV */
+    .checklist-nav {
+      background: var(--color-card-bg2);
+      border-radius: 12px; padding: 28px 32px;
+      margin-bottom: 64px;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+    .checklist-nav-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--color-muted); margin-bottom: 16px;
+    }
+    .checklist-nav ul { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+    .checklist-nav li a {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 15px; color: var(--color-navy); font-weight: 500;
+      padding: 8px 12px; border-radius: 8px;
+      transition: background 0.12s, color 0.12s;
+    }
+    .checklist-nav li a:hover { background: rgba(0,0,0,0.05); }
+    .checklist-nav li a .check-box {
+      width: 20px; height: 20px; border-radius: 4px;
+      border: 2px solid var(--color-navy);
+      flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+    }
+    .checklist-nav li a .check-box svg { width: 12px; height: 12px; color: var(--color-navy); }
+    .checklist-nav li a .check-label { flex: 1; }
+    .checklist-nav li a .check-arrow { font-size: 13px; color: var(--color-muted); }
+
+    /* ============================================================ SECTIONS */
+    .case-section {
+      margin-bottom: 16px;
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+    }
+
+    .section-trigger {
+      width: 100%; background: none; border: none; cursor: pointer;
+      text-align: left; padding: 28px 0 20px;
+      display: flex; align-items: flex-start; gap: 16px;
+      font-family: var(--font-body);
+    }
+    .section-trigger:hover .section-trigger-title { color: var(--color-rust); }
+
+    .section-number {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--color-muted);
+      padding-top: 6px; flex-shrink: 0; width: 28px;
+    }
+
+    .section-trigger-inner { flex: 1; }
+
+    .so-what-tag {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--color-rust);
+      margin-bottom: 6px; display: block;
+    }
+
+    .section-trigger-title {
+      font-size: 20px; font-weight: 700; color: var(--color-navy);
+      line-height: 1.2; margin-bottom: 8px;
+      transition: color 0.15s;
+    }
+
+    .section-summary {
+      font-size: 14px; color: var(--color-muted); line-height: 1.6;
+    }
+
+    .section-toggle {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--color-card-bg);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 4px;
+      transition: background 0.15s, transform 0.2s;
+    }
+    .section-toggle svg { width: 14px; height: 14px; color: var(--color-navy); transition: transform 0.2s; }
+    .case-section.open .section-toggle svg { transform: rotate(180deg); }
+    .case-section.open .section-toggle { background: var(--color-navy); color: white; }
+    .case-section.open .section-toggle svg { color: white; }
+
+    .section-body {
+      display: none;
+      padding: 0 0 32px 44px;
+    }
+    .case-section.open .section-body { display: block; }
+
+    /* ============================================================ BODY CONTENT */
+    .section-body p {
+      font-size: 16px; color: var(--color-text);
+      line-height: 1.8; margin-bottom: 18px;
+    }
+    .section-body h3 {
+      font-size: 17px; font-weight: 700; color: var(--color-navy);
+      margin: 32px 0 12px;
+    }
+    .section-body strong { color: var(--color-navy); }
+
+    /* Pull quote */
+    .pull-quote {
+      border-left: 3px solid var(--color-rust);
+      padding: 16px 24px;
+      margin: 28px 0;
+      background: var(--color-card-bg2);
+      border-radius: 0 12px 12px 0;
+    }
+    .pull-quote p {
+      font-family: var(--font-garamond);
+      font-size: 19px; color: var(--color-navy);
+      line-height: 1.6; margin-bottom: 0 !important;
+    }
+
+    /* Stat cards */
+    .stats-row {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 16px; margin: 28px 0;
+    }
+    .stat-card {
+      background: var(--color-card-bg);
+      border-radius: 12px; padding: 24px 20px; text-align: center;
+    }
+    .stat-number { font-size: 34px; font-weight: 700; color: var(--color-navy); line-height: 1; margin-bottom: 8px; }
+    .stat-number.rust { color: var(--color-rust); }
+    .stat-number.green { color: var(--color-green); }
+    .stat-label { font-size: 13px; color: var(--color-muted); line-height: 1.4; }
+
+    /* Table */
+    .table-wrap { overflow-x: auto; margin: 24px 0; border-radius: 12px; border: 1px solid rgba(0,0,0,0.08); }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    thead tr { background: var(--color-navy); color: white; }
+    thead th { padding: 12px 16px; text-align: left; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+    tbody tr { border-bottom: 1px solid rgba(0,0,0,0.06); }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:nth-child(even) { background: var(--color-card-bg2); }
+    tbody td { padding: 12px 16px; vertical-align: top; line-height: 1.5; color: var(--color-text); }
+    tbody td:first-child { font-weight: 600; color: var(--color-navy); }
+    .cannot { color: var(--color-rust); font-size: 13px; }
+
+    /* Decision card */
+    .decision-card {
+      background: var(--color-card-bg2);
+      border-left: 3px solid var(--color-navy);
+      border-radius: 0 12px 12px 0;
+      padding: 20px 24px; margin: 20px 0;
+    }
+    .decision-card .decision-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--color-rust); margin-bottom: 6px;
+    }
+    .decision-card h3 { margin-top: 0; margin-bottom: 10px; }
+    .decision-card p { margin-bottom: 8px; font-size: 15px; }
+    .decision-card p:last-child { margin-bottom: 0; }
+
+    /* Diagram embed */
+    .diagram-wrap {
+      margin: 32px 0;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.08);
+      background: white;
+    }
+    .diagram-wrap img {
+      width: 100%; height: auto; display: block;
+    }
+    .diagram-caption {
+      padding: 12px 20px;
+      font-size: 13px; color: var(--color-muted); font-style: italic;
+      background: var(--color-card-bg2);
+    }
+
+    /* JTBD table badge */
+    .jtbd-type {
+      display: inline-block;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; padding: 3px 8px;
+      border-radius: 4px; background: var(--color-card-bg);
+      color: var(--color-navy); margin-right: 8px;
+    }
+
+    /* ============================================================ FOOTER */
+    footer {
+      background: var(--color-navy);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 24px 40px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .footer-copy { font-size: 13px; color: rgba(255,255,255,0.45); }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a { font-size: 13px; color: rgba(255,255,255,0.45); transition: color 0.15s; }
+    .footer-links a:hover { color: white; }
+
+    /* ============================================================ RESPONSIVE */
+    @media (max-width: 900px) {
+      .side-nav { display: none; }
+      .main-content { padding: 40px 24px 80px; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      nav { padding: 0 20px; }
+      .nav-links a:not(.btn-reach-out) { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <img src="assets/CB_Logo_(1)_1778781521551-DI4tMfjY.png" alt="CB" onerror="this.outerHTML='<span style=\'font-weight:700;font-size:18px;color:#1E2D4A;\'>CB</span>'" />
+    </a>
+    <div class="nav-links">
+      <div class="nav-dropdown" id="projectsDropdown">
+        <button class="nav-dropdown-toggle" onclick="toggleDropdown()" aria-expanded="false">
+          Projects
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><polyline points="2,4 6,8 10,4"/></svg>
+        </button>
+        <div class="nav-dropdown-menu">
+          <a href="flipted.html">Flipt(ed)</a>
+          <a href="#">Magic Food Truck</a>
+          <a href="#">Neolithic</a>
+          <a href="#">Finding Mino</a>
+          <a href="#">Writing Samples</a>
+          <a href="math-pl-teardown.html" class="active">Math PL Teardown</a>
+        </div>
+      </div>
+      <a href="index.html#about">About</a>
+      <a href="index.html#contact" class="btn-reach-out">Reach Out</a>
+    </div>
+  </nav>
+
+  <div class="page-layout">
+
+    <!-- SIDE NAV -->
+    <aside class="side-nav" id="sideNav">
+      <p class="side-nav-label">In this teardown</p>
+      <a href="#exec-summary" data-section="exec-summary">Executive Summary</a>
+      <a href="#product-definition" data-section="product-definition">Product Definition</a>
+      <a href="#user-analysis" data-section="user-analysis">User Analysis</a>
+      <a href="#metrics-audit" data-section="metrics-audit">Metrics Audit</a>
+      <a href="#key-findings" data-section="key-findings">Key Findings</a>
+      <a href="#root-cause" data-section="root-cause">Root Cause</a>
+      <a href="#outcome-driven" data-section="outcome-driven">Outcome-Driven Model</a>
+      <a href="#what-good-looks-like" data-section="what-good-looks-like">What Good Looks Like</a>
+      <a href="#tradeoffs" data-section="tradeoffs">Trade-offs</a>
+      <a href="#roadmap" data-section="roadmap">Roadmap</a>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+      <a href="index.html" class="back-link">← Back to Home</a>
+
+      <!-- HERO -->
+      <p class="project-label">Product Strategy · EdTech · B2B · K–12</p>
+      <h1 class="project-title">From Session Delivery to Driving Classroom Implementation</h1>
+      <p class="project-tagline">A product teardown diagnosing a K–8 math curriculum's Professional Learning program — and a measurement-driven model to fix it.</p>
+      <div class="project-meta">
+        <span class="meta-chip">Product Teardown</span>
+        <span class="meta-chip">JTBD</span>
+        <span class="meta-chip">Metrics Audit</span>
+        <span class="meta-chip">5 Whys</span>
+        <span class="meta-chip">Roadmap</span>
+        <span class="meta-chip">B2B EdTech</span>
+      </div>
+
+      <!-- TL;DR -->
+      <div class="tldr">
+        <p class="tldr-label">TL;DR</p>
+        <p class="tldr-headline">A professional learning program can be well designed, well attended, and highly rated — and still fail to change classroom practice. This teardown diagnoses why, and proposes a product-management approach to fix it.</p>
+        <ul class="tldr-points">
+          <li>The PL program is optimized for session delivery, not behavior change — a structural gap, not a quality problem</li>
+          <li>Every stakeholder operates with a partial view; information doesn't accumulate into a shared picture of implementation reality</li>
+          <li>No instrument at any tier reliably answers whether teaching practice is actually changing in classrooms</li>
+          <li>The root cause: PL is managed as a delivery model, not an outcome-driven product</li>
+          <li>The fix isn't an overhaul — it's adding product management around a continuous discovery cycle</li>
+          <li>A three-phase roadmap builds measurement infrastructure first, then adapts delivery based on evidence</li>
+        </ul>
+      </div>
+
+      <!-- ARTIFACT CHECKLIST / JUMP NAV -->
+      <div class="checklist-nav">
+        <p class="checklist-nav-label">PM Artifact Checklist — click to jump</p>
+        <ul>
+          <li><a href="#user-analysis">
+            <span class="check-box"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="2,6 5,9 10,3"/></svg></span>
+            <span class="check-label">JTBD (Jobs to be Done)</span>
+            <span class="check-arrow">↓</span>
+          </a></li>
+          <li><a href="#root-cause">
+            <span class="check-box"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="2,6 5,9 10,3"/></svg></span>
+            <span class="check-label">5 Whys Root Cause Analysis</span>
+            <span class="check-arrow">↓</span>
+          </a></li>
+          <li><a href="#metrics-audit">
+            <span class="check-box"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="2,6 5,9 10,3"/></svg></span>
+            <span class="check-label">3-Tier Metrics Audit</span>
+            <span class="check-arrow">↓</span>
+          </a></li>
+          <li><a href="#what-good-looks-like">
+            <span class="check-box"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="2,6 5,9 10,3"/></svg></span>
+            <span class="check-label">Leading / Lagging Indicator Matrix</span>
+            <span class="check-arrow">↓</span>
+          </a></li>
+          <li><a href="#roadmap">
+            <span class="check-box"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="2,6 5,9 10,3"/></svg></span>
+            <span class="check-label">Roadmap &amp; Implementation Sequencing</span>
+            <span class="check-arrow">↓</span>
+          </a></li>
+        </ul>
+      </div>
+
+      <!-- ============================================================ SECTIONS -->
+
+      <!-- 1. EXEC SUMMARY -->
+      <div class="case-section open" id="exec-summary">
+        <button class="section-trigger" onclick="toggleSection('exec-summary')">
+          <span class="section-number">01</span>
+          <div class="section-trigger-inner">
+            <span class="so-what-tag">The Core Gap</span>
+            <div class="section-trigger-title">Executive Summary</div>
+            <div class="section-summary">PL can be well designed, well attended, and highly rated — and still fail to shift classroom practice.</div>
+          </div>
+          <div class="section-toggle"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="2,5 7,9 12,5"/></svg></div>
+        </button>
+        <div class="section-body">
+          <p>The K–8 math curriculum's Professional Learning program provides implementation support to schools that have adopted the curriculum. The service is optimized to deliver sessions, not to determine whether sessions change classroom practice.</p>
+          <div class="pull-quote">
+            <p>"Professional learning can be well designed, well attended, and highly rated, and still fail to shift practice. This gap is between what the service delivers and the outcome it is meant to produce."</p>
+          </div>
+          <p>Implementation signals are fragmented, infrequent, and difficult to act on across the adoption cycle. Facilitators — who have the closest view of teacher practices — have limited visibility into what happened before a session and no consistent way to capture what can be observed on site. Joyce &amp; Showers (2002) found that professional learning has limited transfer to classroom practice without sustained coaching and follow-up.</p>
+          <p>The path forward is not a complete overhaul of the service model. It is a shift from an output-driven delivery model to an <strong>outcome-driven product orientation built around implementation health</strong> — defined as the extent to which target instructional practices are attempted, supported, sustained, and visible across the system.</p>
+        </div>
+      </div>
+
+      <!-- 2. PRODUCT DEFINITION -->
+      <div class="case-section" id="product-definition">
+        <button class="section-trigger" onclick="toggleSection('product-definition')">
+          <span class="section-number">02</span>
+          <div class="section-trigger-inner">
+            <span class="so-what-tag">Intended vs. Actual</span>
+            <div class="section-trigger-title">Product Definition</div>
+            <div class="section-summary">The gap isn't in session quality — it's in visibility into what happens once teachers leave the room.</div>
+          </div>
+          <div class="section-toggle"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="2,5 7,9 12,5"/></svg></div>
+        </button>
+        <div class="section-body">
+          <h3>What the Product Is</h3>
+          <p>PL is a fee-based service delivered to K–8 districts adopting the core mathematics curriculum. Districts are the buyers; classroom teachers are the primary users. New adopters receive a structured sequence of facilitated sessions across three years, supplemented by on-demand digital courses.</p>
+          <h3>Value Proposition: Intended vs. Actual</h3>
+          <div class="decision-card">
+            <p class="decision-label">Intended</p>
+            <p>Move teachers from early adoption toward high-quality math instruction, achieving the curriculum's promise of improved student outcomes.</p>
+          </div>
+          <div class="decision-card">
+            <p class="decision-label">Actual</p>
+            <p>Deliver a sequence of professionally facilitated training sessions with content aligned to each implementation stage. Post-session surveys collect satisfaction data. Between sessions, districts manage implementation independently.</p>
+          </div>
+          <div class="pull-quote">
+            <p>"The gap between Intended and Actual is not session quality — sessions are consistently well designed and delivered — but visibility into what happens once teachers leave the room."</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. USER ANALYSIS -->
+      <div class="case-section" id="user-analysis">
+        <button class="section-trigger" onclick="toggleSection('user-analysis')">
+          <span class="section-number">03</span>
+          <div class="section-trigger-inner">
+            <span class="so-what-tag">JTBD · Journey Mapping</span>
+            <div class="section-trigger-title">User Analysis</div>
+            <div class="section-summary">Four stakeholders, four partial views — no shared picture of implementation reality.</div>
+          </div>
+          <div class="section-toggle"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="2,5 7,9 12,5"/></svg></div>
+        </button>
+        <div class="section-body">
+
+          <h3>Classroom Teacher — Primary User</h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Job Type</th><th>Job</th></tr></thead>
+              <tbody>
+                <tr><td><span class="jtbd-type">Functional</span></td><td>Implement the curriculum well enough that students engage and the classroom doesn't fall apart</td></tr>
+                <tr><td><span class="jtbd-type">Emotional</span></td><td>Maintain professional competence and identity through a transition they did not choose</td></tr>
+                <tr><td><span class="jtbd-type">Social</span></td><td>Be seen by their administrator, colleagues, and students as a capable, confident teacher</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Hall and Hord's Concerns-Based Adoption Model predicts that early adopters concentrate on self and task concerns. In early implementation, knowing what to do on Monday often matters more than understanding the underlying pedagogy. When the gap feels unmanageable, teachers often revert to familiar practices.</p>
+
+          <h3>District Administrator — Buyer</h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Job Type</th><th>Job</th></tr></thead>
+              <tbody>
+                <tr><td><span class="jtbd-type">Functional</span></td><td>Justify the PL investment to stakeholders and confirm adoption is on track</td></tr>
+                <tr><td><span class="jtbd-type">Emotional</span></td><td>Avoid making a costly, visible instructional bet that doesn't pay off</td></tr>
+                <tr><td><span class="jtbd-type">Social</span></td><td>Be seen as a leader who made a sound, evidence-based curriculum decision</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>PL Facilitator — Internal User</h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Job Type</th><th>Job</th></tr></thead>
+              <tbody>
+                <tr><td><span class="jtbd-type">Functional</span></td><td>Deliver prepared session content and support teacher engagement</td></tr>
+                <tr><td><span class="jtbd-type">Emotional</span></td><td>Feel equipped, credible, and effective in the room with teachers</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Facilitators typically arrive without detailed knowledge of what has been happening at the school site between sessions. Post-session notes are informal and not structured around specific aspects of implementation.</p>
+
+          <h3>User Journey: The Implementation Lifecycle</h3>
+          <div class="diagram-wrap">
+            <img src="images/journey_map.svg" alt="User Journey: The Implementation Lifecycle" />
+            <p class="diagram-caption">Each stage is connected operationally — but what's observed at one stage rarely shapes the next.</p>
+          </div>
+
+          <div class="pull-quote">
+            <p>"Each stakeholder operates with a partial view, and information generated across the lifecycle does not accumulate into a shared picture of implementation reality. That is not a gap attributable to any individual — it is a structural property of how the service is organized."</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. METRICS AUDIT -->
+      <div class="case-section" id="metrics-audit">
+        <button class="section-trigger" onclick="toggleSection('metrics-audit')">
+          <span class="section-number">04</span>
+          <div class="section-trigger-inner">
+            <span class="so-what-tag">3-Tier Metrics Audit</span>
+            <div class="section-trigger-title">Metrics Audit</div>
+            <div class="section-summary">Ten instruments. Three tiers. None reliably answers whether classroom practice is changing.</div>
+          </div>
+          <div class="section-toggle"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="2,5 7,9 12,5"/></svg></div>
+        </button>
+        <div class="section-body">
+          <div class="diagram-wrap">
+            <img src="images/metrics_coverage.svg" alt="Metrics Coverage: What Each Instrument Can and Cannot Tell Us" />
+            <p class="diagram-caption">Ten instruments span three measurement tiers — but none reliably answers whether classroom practice is changing.</p>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Metric</th><th>Level</th><th>What it measures</th><th>What it cannot tell us</th></tr></thead>
+              <tbody>
+                <tr><td>Renewal rate</td><td>Business</td><td>Whether districts recontract</td><td class="cannot">Why — or whether implementation quality drove the decision</td></tr>
+                <tr><td>Expansion PL purchase</td><td>Business</td><td>Whether districts bought additional services</td><td class="cannot">Whether demand reflects strong engagement or insufficient scoping</td></tr>
+                <tr><td>PL purchased vs. delivered</td><td>Business</td><td>Whether contracted sessions were completed</td><td class="cannot">Whether delivered sessions produced any change in practice</td></tr>
+                <tr><td>Post-session NPS</td><td>Product outcome</td><td>Whether teachers found a session worthwhile</td><td class="cannot">Whether anything changed in classroom practice — NPS measures perception, not behavior</td></tr>
+                <tr><td>Self-reported implementation survey</td><td>Product outcome</td><td>Teachers' self-estimated implementation behaviors</td><td class="cannot">Whether self-reports reflect actual practice; twice-yearly cadence limits connection to PL delivery</td></tr>
+                <tr><td>Facilitator notes</td><td>Product outcome</td><td>Facilitator observations of session engagement</td><td class="cannot">Comparable data — unstructured, not anchored to the framework, captures nothing between sessions</td></tr>
+                <tr><td>Session attendance</td><td>Product traction</td><td>Whether teachers showed up</td><td class="cannot">Whether content transferred to classroom practice</td></tr>
+                <tr><td>Feature usage</td><td>Product traction</td><td>Whether teachers engage with digital components</td><td class="cannot">Whether engagement produced any change in instructional behavior</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="pull-quote">
+            <p>"Coverage does not mean completeness. No instrument at any level reliably answers whether implementation is occurring in classrooms."</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. KEY FINDINGS -->
+      <div class="case-section" id="key-findings">
+        <button class="section-trigger" onclick="toggleSection('key-findings')">
+          <span class="section-number">05</span>
+          <div class="section-trigger-inner">
+            <span class="so-what-tag">Three Structural Gaps</span>
+            <div class="section-trigger-title">Key Findings</div>
+            <div class="section-summary">The most significant gaps are structural — not attributable to any single stakeholder or measurement failure.</div>
+          </div>
+          <div class="section-toggle"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="2,5 7,9 12,5"/></svg></div>
+        </button>
+        <div class="section-body">
+          <div class="decision-card">
+            <p class="decision-label">Finding A</p>
+            <h3>Structural mismatch — episodic model vs. behavior change research</h3>
+            <p>The PL model is built around discrete sessions, with the expectation that teachers carry what they learn into independent practice. Joyce &amp; Showers found that without coaching and follow-up, this model has limited impact. The outcome — sustained instructional change — is decided in the between-session period, when support is least available.</p>
+          </div>
+          <div class="decision-card">
+            <p class="decision-label">Finding B</p>
+            <h3>Feedback and learning system gaps — data cadence and instrumentation</h3>
+            <p>Information is collected throughout the implementation journey but doesn't feed back into how PL is conceived or delivered. The result: a service that generates data without generating organizational learning.</p>
+          </div>
+          <div class="decision-card">
+            <p class="decision-label">Finding C</p>
+            <h3>Missing change infrastructure — inconsistent coordination across stakeholders</h3>
+            <p>Fixsen's implementation science framework treats organizational conditions — leadership alignment, shared language, coordinated support structures — as prerequisites for implementation success. No structured framework exists to coordinate that alignment across accounts. Where coordination happens, it reflects local capacity and initiative, not a provided process.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. ROOT CAUSE -->
+      <div class="case-section" id="root-cause">
+        <button class="section-trigger" onclick="toggleSection('root-cause')">
+          <span class="section-number">06</span>
+          <div class="section-trigger-inner">
+            <span class="so-what-tag">5 Whys Analysis</span>
+            <div class="section-trigger-title">Root Cause Analysis</div>
+            <div class="section-summary">Five distinct symptoms trace back to a single structural condition.</div>
+          </div>
+          <div class="section-toggle"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="2,5 7,9 12,5"/></svg></div>
+        </button>
+        <div class="section-body">
+          <div class="diagram-wrap">
+            <img src="images/root_cause.svg" alt="Root Cause: Five Whys" />
+            <p class="diagram-caption">Five whys tracing from inconsistent student outcomes to a single root cause.</p>
+          </div>
+          <div class="pull-quote">
+            <p>"PL is managed as a delivery model, not as an outcome-driven product. Success is defined by whether PL is designed, scheduled, delivered, and rated positively — not by whether target instructional behaviors are changing in classrooms."</p>
+          </div>
+          <p>Much of the infrastructure for a more responsive system already exists: a nascent implementation framework, some implementation data collection, and expert professional learning facilitators. What's missing is product management around a continuous discovery cycle that defines behavioral outcomes, measures progress toward them, and adapts delivery based on evidence.</p>
+        </div>
+      </div>
+
+      <!-- 7. OUTCOME-DRIVEN MODEL -->
+      <div class="case-section" id="outcome-driven">
+        <button class="section-trigger" onclick="toggleSection('outcome-driven')">
+          <span class="section-number">07</span>
+          <div class="section-trigger-inner">
+            <span class="so-what-tag">The Recommendation</span>
+            <div class="section-trigger-title">Case for an Outcome-Driven Model</div>
+            <div class="section-summary">Five behavior shifts that follow when you treat PL as a product, not a delivery service.</div>
+          </div>
+          <div class="section-toggle"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="2,5 7,9 12,5"/></svg></div>
+        </button>
+        <div class="section-body">
+          <p>An output-driven model defines success by sessions designed, scheduled, and delivered. An outcome-driven model defines success by measurable changes in user behavior — in this case, teaching practices. Five behavior shifts follow:</p>
+
+          <div class="decision-card">
+            <p class="decision-label">Shift 1</p>
+            <h3>Measuring outcomes: defined behaviors → measurement designed around them</h3>
+            <p>Begin with the instructional framework, then ask how the service team will know if they are having an impact. Implementation progress becomes observable rather than assumed.</p>
+          </div>
+          <div class="decision-card">
+            <p class="decision-label">Shift 2</p>
+            <h3>Facilitator role: fixed sequence delivery → implementation diagnosis</h3>
+            <p>Facilitators currently arrive with prepared content and little knowledge of what's happened at the site since the last visit. An outcome-driven orientation makes implementation data the basis for session decisions instead.</p>
+          </div>
+          <div class="decision-card">
+            <p class="decision-label">Shift 3</p>
+            <h3>Implementation visibility: episodic data → continuous practice signals</h3>
+            <p>Replace end-of-session satisfaction signals with a regular cadence of behavior-focused check-ins that track how practice is actually changing.</p>
+          </div>
+          <div class="decision-card">
+            <p class="decision-label">Shift 4</p>
+            <h3>Data synthesis: fragmented signals → shared implementation picture</h3>
+            <p>Combine facilitator observations, satisfaction surveys, implementation surveys, and account check-ins into a coherent view of implementation health at the site level.</p>
+          </div>
+          <div class="decision-card">
+            <p class="decision-label">Shift 5</p>
+            <h3>From delivery system to learning system</h3>
+            <p>A service that measures outcomes and adapts support based on what's learned — rather than one that just delivers sessions and hopes for the best.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 8. WHAT GOOD LOOKS LIKE -->
+      <div class="case-section" id="what-good-looks-like">
+        <button class="section-trigger" onclick="toggleSection('what-good-looks-like')">
+          <span class="section-number">08</span>
+          <div class="section-trigger-inner">
+            <span class="so-what-tag">Leading / Lagging Indicators</span>
+            <div class="section-trigger-title">What Good Looks Like</div>
+            <div class="section-summary">Validation signals, success by user type, and a leading/lagging indicator matrix.</div>
+          </div>
+          <div class="section-toggle"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="2,5 7,9 12,5"/></svg></div>
+        </button>
+        <div class="section-body">
+          <h3>Success by User Type</h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>User Type</th><th>What Success Looks Like</th></tr></thead>
+              <tbody>
+                <tr><td>Teacher</td><td>Attempts, refines, and sustains new instructional practices between sessions rather than reverting to previous habits</td></tr>
+                <tr><td>School Leader</td><td>Proactively supports implementation through planned walkthroughs and coaching — not just responding after problems surface</td></tr>
+                <tr><td>District Admin</td><td>Can point to implementation evidence, not satisfaction scores alone, when making support and renewal decisions</td></tr>
+                <tr><td>Facilitator</td><td>Adapts support based on implementation evidence rather than predefined content sequences</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>Leading vs. Lagging Indicators</h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>User Type</th><th>Leading</th><th>Lagging</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>Teacher</td>
+                  <td>Session attendance; intent to change practice (self-reported); facilitator-observed implementation barriers</td>
+                  <td>Feature usage; self-reported implementation survey; facilitator classroom observations; planning tool utilization</td>
+                </tr>
+                <tr>
+                  <td>School Leader</td>
+                  <td>Implementation support plan established; attendance at PL sessions</td>
+                  <td>Walkthrough frequency and focus; coaching notes; reported reduced variability across classrooms</td>
+                </tr>
+                <tr>
+                  <td>District Admin</td>
+                  <td>Implementation leadership plan established</td>
+                  <td>Additional PL/coaching purchase; engagement with implementation reporting; reduced variability across sites</td>
+                </tr>
+                <tr>
+                  <td>Facilitator</td>
+                  <td>Adaptation of content based on prior site signals</td>
+                  <td>Structured implementation observations</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="pull-quote">
+            <p>"These indicators will only matter if they change how the organization acts before a renewal conversation, not during one."</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 9. TRADE-OFFS -->
+      <div class="case-section" id="tradeoffs">
+        <button class="section-trigger" onclick="toggleSection('tradeoffs')">
+          <span class="section-number">09</span>
+          <div class="section-trigger-inner">
+            <span class="so-what-tag">Honest Constraints</span>
+            <div class="section-trigger-title">Trade-offs &amp; Constraints</div>
+            <div class="section-summary">An outcome-driven model is not free — and the status quo isn't either.</div>
+          </div>
+          <div class="section-toggle"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="2,5 7,9 12,5"/></svg></div>
+        </button>
+        <div class="section-body">
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Constraint</th><th>What It Requires or Risks</th></tr></thead>
+              <tbody>
+                <tr><td>Cost of data collection at scale</td><td>Real investment in new tools and maintenance overhead; skipping it reproduces today's fragmented signal at a larger scale</td></tr>
+                <tr><td>Measurement quality</td><td>The model depends on observation quality; weak inputs produce misleading implementation-health readings</td></tr>
+                <tr><td>Facilitator capacity</td><td>Facilitators vary in bandwidth and comfort with structured observation; training closes some of the gap, not all of it</td></tr>
+                <tr><td>Teacher trust</td><td>Classroom observation data raises legitimate trust concerns unless teachers see clear benefit and retain some control</td></tr>
+                <tr><td>District buy-in</td><td>Many districts already run their own PL systems; the implementation framework must earn its place against existing structures</td></tr>
+                <tr><td>Organizational coordination</td><td>PL, partner success, and sales need a shared view of implementation health — without it, facilitators never receive the signals they need</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="pull-quote">
+            <p>"The choice is not between a costly new model and a free existing one — it's between two sets of trade-offs, one of which is currently opaque because of inadequate measuring tools."</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 10. ROADMAP -->
+      <div class="case-section" id="roadmap">
+        <button class="section-trigger" onclick="toggleSection('roadmap')">
+          <span class="section-number">10</span>
+          <div class="section-trigger-inner">
+            <span class="so-what-tag">Roadmap · Implementation Sequencing</span>
+            <div class="section-trigger-title">Roadmap: A Learning Cycle, Not a Fixed Plan</div>
+            <div class="section-summary">Three phases — each one depends on evidence from the last before advancing.</div>
+          </div>
+          <div class="section-toggle"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="2,5 7,9 12,5"/></svg></div>
+        </button>
+        <div class="section-body">
+          <div class="diagram-wrap">
+            <img src="images/roadmap_timeline.svg" alt="Roadmap: A Learning Cycle, Not a Fixed Plan" />
+            <p class="diagram-caption">Each phase advances only when evidence from the last one justifies it — sequenced to the school calendar.</p>
+          </div>
+
+          <div class="decision-card">
+            <p class="decision-label">Phase 1 · Spring / Summer</p>
+            <h3>Measurement Foundation</h3>
+            <p><strong>Goal:</strong> Define target behaviors and establish structured data collection on existing touchpoints.</p>
+            <p>Structured facilitator session notes, automated post-session intent surveys, pre-session progress surveys, and existing product usage signals — reframed, not replaced. Three small experiments run in parallel: survey framing variance, between-session check-in pilots, and low-stakes classroom observations.</p>
+            <p><strong>Evidenced by:</strong> Published framework, consistent structured capture, and early working-group signals worth building on.</p>
+          </div>
+
+          <div class="decision-card">
+            <p class="decision-label">Phase 2 · Fall → Spring</p>
+            <h3>Model &amp; Facilitator Adaptation</h3>
+            <p><strong>Goal:</strong> Synthesize data into an implementation-health view; enable facilitators to adapt sessions based on evidence.</p>
+            <p>Build an Implementation Health Model from Phase 1 data streams. Test model validity with facilitators and ISTs. Develop a facilitator menu of session adaptations focused on emphasis and questioning — not wholesale content changes.</p>
+            <p><strong>Evidenced by:</strong> Active model use in pilot accounts, facilitator-reported value in session prep, and early signs of variation in how teachers respond.</p>
+          </div>
+
+          <div class="decision-card">
+            <p class="decision-label">Phase 3 · Spring Onward</p>
+            <h3>Scale &amp; Iterate</h3>
+            <p><strong>Goal:</strong> Expand the model across accounts and refine based on system-wide implementation learning.</p>
+            <p>Working-group reviews now informed by cross-account patterns. Identify which behaviors predict sustained implementation. Future work: greater content modularity and district-level views for renewal decisions grounded in implementation evidence.</p>
+            <p><strong>Guiding principle:</strong> Scaling before proof risks embedding a tool that doesn't work — expansion follows evidence.</p>
+          </div>
+
+          <div class="pull-quote">
+            <p>"The roadmap is best read not as a fixed plan but as the continuous discovery cycle in practice: each phase tests assumptions, generates evidence, and determines what the next phase should be."</p>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p class="footer-copy">&copy; <span id="year"></span> Christian Butcher. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="https://www.linkedin.com/in/christianbutcher/" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    function toggleDropdown() {
+      const dd = document.getElementById('projectsDropdown');
+      const isOpen = dd.classList.toggle('open');
+      dd.querySelector('.nav-dropdown-toggle').setAttribute('aria-expanded', isOpen);
+    }
+    document.addEventListener('click', function(e) {
+      const dd = document.getElementById('projectsDropdown');
+      if (!dd.contains(e.target)) {
+        dd.classList.remove('open');
+        dd.querySelector('.nav-dropdown-toggle').setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Toggle section open/close
+    function toggleSection(id) {
+      const section = document.getElementById(id);
+      section.classList.toggle('open');
+    }
+
+    // Sticky side nav active state on scroll
+    const sections = document.querySelectorAll('.case-section');
+    const sideLinks = document.querySelectorAll('.side-nav a');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          sideLinks.forEach(link => {
+            link.classList.toggle('active', link.dataset.section === id);
+          });
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+
+    sections.forEach(s => observer.observe(s));
+
+    // Auto-open section when clicking side nav or checklist
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener('click', function(e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target && target.classList.contains('case-section')) {
+          target.classList.add('open');
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
