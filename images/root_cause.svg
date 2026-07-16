@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="1200" viewBox="0 0 1100 1200" font-family="Arial, Helvetica, sans-serif">
+  <rect width="1100" height="1200" fill="#ffffff"/>
+
+  <!-- Title -->
+  <text x="550" y="42" text-anchor="middle" font-size="26" font-weight="bold" fill="#1f2d3d">Root Cause: Five Whys</text>
+  <text x="550" y="70" text-anchor="middle" font-size="15" fill="#5a6472">Five distinct symptoms trace back to a single structural condition</text>
+
+  <!-- Why 1 -->
+  <g>
+    <rect x="90" y="105" width="920" height="118" rx="8" fill="#f4f6f8" stroke="#d8dee4"/>
+    <circle cx="130" cy="164" r="22" fill="#1f3a5f"/>
+    <text x="130" y="171" text-anchor="middle" font-size="18" font-weight="bold" fill="#ffffff">1</text>
+    <text x="170" y="135" font-size="14.5" font-weight="bold" fill="#1f2d3d">Why doesn't iRCL adoption consistently improve student outcomes?</text>
+    <text x="170" y="160" font-size="13" fill="#3d4753">Because effective adoption requires implementation best practices —</text>
+    <text x="170" y="180" font-size="13" fill="#3d4753">and instructional quality varies significantly within and across accounts,</text>
+    <text x="170" y="200" font-size="13" fill="#3d4753">undermining the curriculum's intended impact.</text>
+  </g>
+  <line x1="550" y1="223" x2="550" y2="253" stroke="#9aa5b1" stroke-width="2"/>
+  <polygon points="543,248 557,248 550,262" fill="#9aa5b1"/>
+
+  <!-- Why 2 -->
+  <g>
+    <rect x="90" y="265" width="920" height="118" rx="8" fill="#f4f6f8" stroke="#d8dee4"/>
+    <circle cx="130" cy="324" r="22" fill="#1f3a5f"/>
+    <text x="130" y="331" text-anchor="middle" font-size="18" font-weight="bold" fill="#ffffff">2</text>
+    <text x="170" y="295" font-size="14.5" font-weight="bold" fill="#1f2d3d">Why isn't implementation health consistently improving across accounts?</text>
+    <text x="170" y="320" font-size="13" fill="#3d4753">Because instructional practice varies significantly within and across</text>
+    <text x="170" y="340" font-size="13" fill="#3d4753">accounts, and the service has no consistent way to detect that variation</text>
+    <text x="170" y="360" font-size="13" fill="#3d4753">as it happens.</text>
+  </g>
+  <line x1="550" y1="383" x2="550" y2="413" stroke="#9aa5b1" stroke-width="2"/>
+  <polygon points="543,408 557,408 550,422" fill="#9aa5b1"/>
+
+  <!-- Why 3 -->
+  <g>
+    <rect x="90" y="425" width="920" height="118" rx="8" fill="#f4f6f8" stroke="#d8dee4"/>
+    <circle cx="130" cy="484" r="22" fill="#1f3a5f"/>
+    <text x="130" y="491" text-anchor="middle" font-size="18" font-weight="bold" fill="#ffffff">3</text>
+    <text x="170" y="455" font-size="14.5" font-weight="bold" fill="#1f2d3d">Why doesn't support capture what's happening between sessions?</text>
+    <text x="170" y="480" font-size="13" fill="#3d4753">Because standard feedback mechanisms don't connect classroom reality</text>
+    <text x="170" y="500" font-size="13" fill="#3d4753">back to how support is designed and delivered, in a timely, structured</text>
+    <text x="170" y="520" font-size="13" fill="#3d4753">way.</text>
+  </g>
+  <line x1="550" y1="543" x2="550" y2="573" stroke="#9aa5b1" stroke-width="2"/>
+  <polygon points="543,568 557,568 550,582" fill="#9aa5b1"/>
+
+  <!-- Why 4 -->
+  <g>
+    <rect x="90" y="585" width="920" height="118" rx="8" fill="#f4f6f8" stroke="#d8dee4"/>
+    <circle cx="130" cy="644" r="22" fill="#1f3a5f"/>
+    <text x="130" y="651" text-anchor="middle" font-size="18" font-weight="bold" fill="#ffffff">4</text>
+    <text x="170" y="615" font-size="14.5" font-weight="bold" fill="#1f2d3d">Why is there no feedback mechanism connecting classroom reality to</text>
+    <text x="170" y="633" font-size="14.5" font-weight="bold" fill="#1f2d3d">service delivery?</text>
+    <text x="170" y="658" font-size="13" fill="#3d4753">Because the service has no continuous discovery cycle — no defined</text>
+    <text x="170" y="678" font-size="13" fill="#3d4753">process for identifying target behaviors, measuring progress, or</text>
+    <text x="170" y="698" font-size="13" fill="#3d4753">adjusting based on what is or isn't working.</text>
+  </g>
+  <line x1="550" y1="703" x2="550" y2="733" stroke="#9aa5b1" stroke-width="2"/>
+  <polygon points="543,728 557,728 550,742" fill="#9aa5b1"/>
+
+  <!-- Why 5 -->
+  <g>
+    <rect x="90" y="745" width="920" height="118" rx="8" fill="#f4f6f8" stroke="#d8dee4"/>
+    <circle cx="130" cy="804" r="22" fill="#1f3a5f"/>
+    <text x="130" y="811" text-anchor="middle" font-size="18" font-weight="bold" fill="#ffffff">5</text>
+    <text x="170" y="775" font-size="14.5" font-weight="bold" fill="#1f2d3d">Why is there no continuous discovery cycle?</text>
+    <text x="170" y="800" font-size="13" fill="#3d4753">Because professional learning is managed as a delivery model — focused</text>
+    <text x="170" y="820" font-size="13" fill="#3d4753">on designing, scheduling, and delivering sessions — not on defining the</text>
+    <text x="170" y="840" font-size="13" fill="#3d4753">behavior change the product should produce or building the infrastructure</text>
+    <text x="170" y="858" font-size="13" fill="#3d4753">to measure and respond to it.</text>
+  </g>
+  <line x1="550" y1="863" x2="550" y2="898" stroke="#b23b3b" stroke-width="3"/>
+  <polygon points="541,891 559,891 550,908" fill="#b23b3b"/>
+
+  <!-- Root Cause -->
+  <rect x="70" y="920" width="960" height="200" rx="10" fill="#fdf2f2" stroke="#b23b3b" stroke-width="2.5"/>
+  <text x="550" y="956" text-anchor="middle" font-size="19" font-weight="bold" fill="#8a2c2c">ROOT CAUSE</text>
+  <text x="550" y="986" text-anchor="middle" font-size="16" font-weight="bold" fill="#5a2020">PL is managed as a delivery model, not as an outcome-driven product.</text>
+  <text x="550" y="1016" text-anchor="middle" font-size="13" fill="#5a2020">Success is defined by whether PL is designed, scheduled, delivered, and rated positively —</text>
+  <text x="550" y="1036" text-anchor="middle" font-size="13" fill="#5a2020">not by whether target instructional behaviors are changing in classrooms.</text>
+  <text x="550" y="1062" text-anchor="middle" font-size="13" fill="#5a2020">The infrastructure for a more responsive system largely exists — what's missing is product</text>
+  <text x="550" y="1082" text-anchor="middle" font-size="13" fill="#5a2020">management around a continuous discovery cycle that acts on it.</text>
+  <!-- Footer -->
+  <text x="550" y="1160" text-anchor="middle" font-size="13" fill="#8a94a1">Source: Section 6, Root Cause Analysis — i-Ready Classroom Mathematics Professional Learning teardown</text>
+</svg>

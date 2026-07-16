@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1300" height="850" viewBox="0 0 1300 850" font-family="Arial, Helvetica, sans-serif">
+  <rect width="1300" height="850" fill="#ffffff"/>
+
+  <!-- Title -->
+  <text x="650" y="42" text-anchor="middle" font-size="26" font-weight="bold" fill="#1f2d3d">Metrics Coverage: What Each Instrument Can and Cannot Tell Us</text>
+  <text x="650" y="70" text-anchor="middle" font-size="15" fill="#5a6472">Ten instruments span three measurement tiers — but none reliably answers whether classroom practice is changing</text>
+
+  <!-- ===================== COLUMN 1: Business Outcome ===================== -->
+  <g>
+    <rect x="40" y="110" width="380" height="46" rx="6" fill="#1f3a5f"/>
+    <text x="230" y="140" text-anchor="middle" font-size="17" font-weight="bold" fill="#ffffff">BUSINESS OUTCOME</text>
+
+    <!-- Card 1 -->
+    <rect x="40" y="170" width="380" height="88" rx="6" fill="#f4f6f8" stroke="#d8dee4"/>
+    <text x="58" y="196" font-size="15" font-weight="bold" fill="#1f2d3d">Renewal rate</text>
+    <text x="58" y="216" font-size="12.5" fill="#5a6472">Confirms: districts recontract</text>
+    <text x="58" y="236" font-size="12.5" fill="#b23b3b">✕ Cannot show: why, or if implementation drove it</text>
+
+    <!-- Card 2 -->
+    <rect x="40" y="270" width="380" height="88" rx="6" fill="#f4f6f8" stroke="#d8dee4"/>
+    <text x="58" y="296" font-size="15" font-weight="bold" fill="#1f2d3d">Expansion PL purchase</text>
+    <text x="58" y="316" font-size="12.5" fill="#5a6472">Confirms: districts bought more services</text>
+    <text x="58" y="336" font-size="12.5" fill="#b23b3b">✕ Cannot show: engagement vs. under-scoping</text>
+
+    <!-- Card 3 -->
+    <rect x="40" y="370" width="380" height="88" rx="6" fill="#f4f6f8" stroke="#d8dee4"/>
+    <text x="58" y="396" font-size="15" font-weight="bold" fill="#1f2d3d">PL purchased vs. delivered</text>
+    <text x="58" y="416" font-size="12.5" fill="#5a6472">Confirms: sessions were completed</text>
+    <text x="58" y="436" font-size="12.5" fill="#b23b3b">✕ Cannot show: any change in practice</text>
+  </g>
+
+  <!-- ===================== COLUMN 2: Product Outcome ===================== -->
+  <g>
+    <rect x="460" y="110" width="380" height="46" rx="6" fill="#1f3a5f"/>
+    <text x="650" y="140" text-anchor="middle" font-size="17" font-weight="bold" fill="#ffffff">PRODUCT OUTCOME</text>
+
+    <!-- Card 1 -->
+    <rect x="460" y="170" width="380" height="80" rx="6" fill="#f4f6f8" stroke="#d8dee4"/>
+    <text x="478" y="194" font-size="15" font-weight="bold" fill="#1f2d3d">PSM observations (district)</text>
+    <text x="478" y="213" font-size="12.5" fill="#5a6472">Confirms: leadership's reported view</text>
+    <text x="478" y="232" font-size="12.5" fill="#b23b3b">✕ Cannot show: classroom reality</text>
+
+    <!-- Card 2 -->
+    <rect x="460" y="258" width="380" height="80" rx="6" fill="#f4f6f8" stroke="#d8dee4"/>
+    <text x="478" y="282" font-size="15" font-weight="bold" fill="#1f2d3d">Post-session NPS</text>
+    <text x="478" y="301" font-size="12.5" fill="#5a6472">Confirms: session was worthwhile</text>
+    <text x="478" y="320" font-size="12.5" fill="#b23b3b">✕ Cannot show: behavior change — perception only</text>
+
+    <!-- Card 3 -->
+    <rect x="460" y="346" width="380" height="80" rx="6" fill="#f4f6f8" stroke="#d8dee4"/>
+    <text x="478" y="370" font-size="15" font-weight="bold" fill="#1f2d3d">Self-reported implementation survey</text>
+    <text x="478" y="389" font-size="12.5" fill="#5a6472">Confirms: teacher self-estimate</text>
+    <text x="478" y="408" font-size="12.5" fill="#b23b3b">✕ Cannot show: actual practice; twice-yearly cadence</text>
+
+    <!-- Card 4 -->
+    <rect x="460" y="434" width="380" height="80" rx="6" fill="#f4f6f8" stroke="#d8dee4"/>
+    <text x="478" y="458" font-size="15" font-weight="bold" fill="#1f2d3d">Facilitator notes</text>
+    <text x="478" y="477" font-size="12.5" fill="#5a6472">Confirms: session-level observations</text>
+    <text x="478" y="496" font-size="12.5" fill="#b23b3b">✕ Cannot show: comparable, between-session data</text>
+  </g>
+
+  <!-- ===================== COLUMN 3: Product Traction ===================== -->
+  <g>
+    <rect x="880" y="110" width="380" height="46" rx="6" fill="#1f3a5f"/>
+    <text x="1070" y="140" text-anchor="middle" font-size="17" font-weight="bold" fill="#ffffff">PRODUCT TRACTION</text>
+
+    <!-- Card 1 -->
+    <rect x="880" y="170" width="380" height="88" rx="6" fill="#f4f6f8" stroke="#d8dee4"/>
+    <text x="898" y="196" font-size="15" font-weight="bold" fill="#1f2d3d">Session attendance</text>
+    <text x="898" y="216" font-size="12.5" fill="#5a6472">Confirms: teachers showed up</text>
+    <text x="898" y="236" font-size="12.5" fill="#b23b3b">✕ Cannot show: transfer to classroom practice</text>
+
+    <!-- Card 2 -->
+    <rect x="880" y="270" width="380" height="88" rx="6" fill="#f4f6f8" stroke="#d8dee4"/>
+    <text x="898" y="296" font-size="15" font-weight="bold" fill="#1f2d3d">Feature usage</text>
+    <text x="898" y="316" font-size="12.5" fill="#5a6472">Confirms: digital engagement</text>
+    <text x="898" y="336" font-size="12.5" fill="#b23b3b">✕ Cannot show: change in instructional behavior</text>
+
+    <!-- Card 3 -->
+    <rect x="880" y="370" width="380" height="88" rx="6" fill="#f4f6f8" stroke="#d8dee4"/>
+    <text x="898" y="396" font-size="15" font-weight="bold" fill="#1f2d3d">Course completion</text>
+    <text x="898" y="416" font-size="12.5" fill="#5a6472">Confirms: modules were finished</text>
+    <text x="898" y="436" font-size="12.5" fill="#b23b3b">✕ Cannot show: correlation with implementation</text>
+  </g>
+
+  <!-- Converging arrows -->
+  <line x1="230" y1="470" x2="600" y2="600" stroke="#9aa5b1" stroke-width="2"/>
+  <line x1="650" y1="530" x2="650" y2="600" stroke="#9aa5b1" stroke-width="2"/>
+  <line x1="1070" y1="470" x2="700" y2="600" stroke="#9aa5b1" stroke-width="2"/>
+  <polygon points="645,595 655,595 650,610" fill="#9aa5b1"/>
+
+  <!-- Conclusion box -->
+  <rect x="140" y="615" width="1020" height="130" rx="10" fill="#fdf2f2" stroke="#b23b3b" stroke-width="2"/>
+  <text x="650" y="655" text-anchor="middle" font-size="19" font-weight="bold" fill="#8a2c2c">The core measurement gap</text>
+  <text x="650" y="686" text-anchor="middle" font-size="14.5" fill="#5a2020">Coverage does not mean completeness. Business metrics are lagging and ambiguous;</text>
+  <text x="650" y="708" text-anchor="middle" font-size="14.5" fill="#5a2020">product traction confirms engagement, not transfer. No instrument at any tier</text>
+  <text x="650" y="730" text-anchor="middle" font-size="14.5" fill="#5a2020">reliably answers whether implementation is occurring in classrooms.</text>
+
+  <!-- Footer -->
+  <text x="650" y="810" text-anchor="middle" font-size="13" fill="#8a94a1">Source: Section 4, Metrics Audit — i-Ready Classroom Mathematics Professional Learning teardown</text>
+</svg>

@@ -1,0 +1,155 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="740" viewBox="0 0 1400 740" font-family="Arial, Helvetica, sans-serif">
+  <rect width="1400" height="740" fill="#ffffff"/>
+
+  <!-- Title -->
+  <text x="700" y="42" text-anchor="middle" font-size="26" font-weight="bold" fill="#1f2d3d">User Journey: The Implementation Lifecycle</text>
+  <text x="700" y="70" text-anchor="middle" font-size="15" fill="#5a6472">Stages are operationally connected — but what's observed at one stage rarely shapes the next</text>
+
+  <!-- Backbone line -->
+  <line x1="90" y1="140" x2="1310" y2="140" stroke="#c3cbd4" stroke-width="3"/>
+
+  <!-- Stage nodes -->
+  <circle cx="150" cy="140" r="10" fill="#1f3a5f"/>
+  <circle cx="430" cy="140" r="10" fill="#1f3a5f"/>
+  <circle cx="710" cy="140" r="10" fill="#1f3a5f"/>
+  <circle cx="990" cy="140" r="10" fill="#1f3a5f"/>
+  <circle cx="1250" cy="140" r="10" fill="#1f3a5f"/>
+
+  <!-- Broken-signal marks between stages (info doesn't carry forward) -->
+  <g stroke="#b23b3b" stroke-width="2.5">
+    <line x1="280" y1="135" x2="292" y2="145"/>
+    <line x1="280" y1="145" x2="292" y2="135"/>
+    <line x1="560" y1="135" x2="572" y2="145"/>
+    <line x1="560" y1="145" x2="572" y2="135"/>
+    <line x1="840" y1="135" x2="852" y2="145"/>
+    <line x1="840" y1="145" x2="852" y2="135"/>
+    <line x1="1110" y1="135" x2="1122" y2="145"/>
+    <line x1="1110" y1="145" x2="1122" y2="135"/>
+  </g>
+
+  <!-- ============ Stage 1: Pre-adoption ============ -->
+  <g>
+    <rect x="30" y="170" width="240" height="40" rx="6" fill="#1f3a5f"/>
+    <text x="150" y="196" text-anchor="middle" font-size="14" font-weight="bold" fill="#ffffff">PRE-ADOPTION</text>
+
+    <rect x="30" y="222" width="240" height="60" rx="6" fill="#eef1f4" stroke="#d8dee4"/>
+    <text x="150" y="242" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#3d4753">Key users</text>
+    <text x="150" y="260" text-anchor="middle" font-size="11" fill="#5a6472">District admin, school admin</text>
+
+    <rect x="30" y="292" width="240" height="90" rx="6" fill="#f4f6f8" stroke="#d8dee4"/>
+    <text x="42" y="312" font-size="11.5" font-weight="bold" fill="#3d4753">What happens</text>
+    <text x="42" y="330" font-size="10.5" fill="#5a6472">District contracts for PL;</text>
+    <text x="42" y="345" font-size="10.5" fill="#5a6472">schools are oriented to</text>
+    <text x="42" y="360" font-size="10.5" fill="#5a6472">the adoption</text>
+
+    <rect x="30" y="392" width="240" height="100" rx="6" fill="#fdf2f2" stroke="#e0aeae"/>
+    <text x="42" y="412" font-size="11.5" font-weight="bold" fill="#8a2c2c">Friction</text>
+    <text x="42" y="430" font-size="10.5" fill="#5a2020">Readiness and framework</text>
+    <text x="42" y="445" font-size="10.5" fill="#5a2020">orientation vary by site — no</text>
+    <text x="42" y="460" font-size="10.5" fill="#5a2020">consistent baseline before</text>
+    <text x="42" y="475" font-size="10.5" fill="#5a2020">sessions begin</text>
+  </g>
+
+  <!-- ============ Stage 2: Initial sessions ============ -->
+  <g>
+    <rect x="310" y="170" width="240" height="40" rx="6" fill="#1f3a5f"/>
+    <text x="430" y="196" text-anchor="middle" font-size="14" font-weight="bold" fill="#ffffff">INITIAL SESSIONS</text>
+
+    <rect x="310" y="222" width="240" height="60" rx="6" fill="#eef1f4" stroke="#d8dee4"/>
+    <text x="430" y="242" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#3d4753">Key users</text>
+    <text x="430" y="260" text-anchor="middle" font-size="11" fill="#5a6472">Classroom teacher, facilitator</text>
+
+    <rect x="310" y="292" width="240" height="90" rx="6" fill="#f4f6f8" stroke="#d8dee4"/>
+    <text x="322" y="312" font-size="11.5" font-weight="bold" fill="#3d4753">What happens</text>
+    <text x="322" y="330" font-size="10.5" fill="#5a6472">Facilitator delivers prepared</text>
+    <text x="322" y="345" font-size="10.5" fill="#5a6472">content; teachers engage</text>
+    <text x="322" y="360" font-size="10.5" fill="#5a6472">with materials and practices</text>
+
+    <rect x="310" y="392" width="240" height="100" rx="6" fill="#fdf2f2" stroke="#e0aeae"/>
+    <text x="322" y="412" font-size="11.5" font-weight="bold" fill="#8a2c2c">Friction</text>
+    <text x="322" y="430" font-size="10.5" fill="#5a2020">Facilitators arrive without</text>
+    <text x="322" y="445" font-size="10.5" fill="#5a2020">site knowledge; teacher</text>
+    <text x="322" y="460" font-size="10.5" fill="#5a2020">variation isn't captured or</text>
+    <text x="322" y="475" font-size="10.5" fill="#5a2020">used to differentiate content</text>
+  </g>
+
+  <!-- ============ Stage 3: Between sessions ============ -->
+  <g>
+    <rect x="590" y="170" width="240" height="40" rx="6" fill="#1f3a5f"/>
+    <text x="710" y="196" text-anchor="middle" font-size="14" font-weight="bold" fill="#ffffff">BETWEEN SESSIONS</text>
+
+    <rect x="590" y="222" width="240" height="60" rx="6" fill="#eef1f4" stroke="#d8dee4"/>
+    <text x="710" y="242" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#3d4753">Key users</text>
+    <text x="710" y="260" text-anchor="middle" font-size="11" fill="#5a6472">Classroom teacher, school admin</text>
+
+    <rect x="590" y="292" width="240" height="90" rx="6" fill="#f4f6f8" stroke="#d8dee4"/>
+    <text x="602" y="312" font-size="11.5" font-weight="bold" fill="#3d4753">What happens</text>
+    <text x="602" y="330" font-size="10.5" fill="#5a6472">Teachers implement</text>
+    <text x="602" y="345" font-size="10.5" fill="#5a6472">independently; admins support</text>
+    <text x="602" y="360" font-size="10.5" fill="#5a6472">via walkthroughs, varying by site</text>
+
+    <rect x="590" y="392" width="240" height="100" rx="6" fill="#fdf2f2" stroke="#e0aeae"/>
+    <text x="602" y="412" font-size="11.5" font-weight="bold" fill="#8a2c2c">Friction</text>
+    <text x="602" y="430" font-size="10.5" fill="#5a2020">Support quality depends on</text>
+    <text x="602" y="445" font-size="10.5" fill="#5a2020">admin capacity; teachers who</text>
+    <text x="602" y="460" font-size="10.5" fill="#5a2020">struggle have no structured</text>
+    <text x="602" y="475" font-size="10.5" fill="#5a2020">path back to support</text>
+  </g>
+
+  <!-- ============ Stage 4: Follow-up sessions ============ -->
+  <g>
+    <rect x="870" y="170" width="240" height="40" rx="6" fill="#1f3a5f"/>
+    <text x="990" y="196" text-anchor="middle" font-size="14" font-weight="bold" fill="#ffffff">FOLLOW-UP SESSIONS</text>
+
+    <rect x="870" y="222" width="240" height="60" rx="6" fill="#eef1f4" stroke="#d8dee4"/>
+    <text x="990" y="242" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#3d4753">Key users</text>
+    <text x="990" y="260" text-anchor="middle" font-size="11" fill="#5a6472">Classroom teacher, facilitator</text>
+
+    <rect x="870" y="292" width="240" height="90" rx="6" fill="#f4f6f8" stroke="#d8dee4"/>
+    <text x="882" y="312" font-size="11.5" font-weight="bold" fill="#3d4753">What happens</text>
+    <text x="882" y="330" font-size="10.5" fill="#5a6472">Sessions follow a predefined</text>
+    <text x="882" y="345" font-size="10.5" fill="#5a6472">progression; teachers move</text>
+    <text x="882" y="360" font-size="10.5" fill="#5a6472">toward more complex practices</text>
+
+    <rect x="870" y="392" width="240" height="100" rx="6" fill="#fdf2f2" stroke="#e0aeae"/>
+    <text x="882" y="412" font-size="11.5" font-weight="bold" fill="#8a2c2c">Friction</text>
+    <text x="882" y="430" font-size="10.5" fill="#5a2020">Whether sessions reflect</text>
+    <text x="882" y="445" font-size="10.5" fill="#5a2020">site-specific implementation</text>
+    <text x="882" y="460" font-size="10.5" fill="#5a2020">experience or progress</text>
+    <text x="882" y="475" font-size="10.5" fill="#5a2020">varies by facilitator</text>
+  </g>
+
+  <!-- ============ Stage 5: Renewal ============ -->
+  <g>
+    <rect x="1150" y="170" width="220" height="40" rx="6" fill="#1f3a5f"/>
+    <text x="1260" y="196" text-anchor="middle" font-size="14" font-weight="bold" fill="#ffffff">RENEWAL</text>
+
+    <rect x="1150" y="222" width="220" height="60" rx="6" fill="#eef1f4" stroke="#d8dee4"/>
+    <text x="1260" y="242" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#3d4753">Key users</text>
+    <text x="1260" y="260" text-anchor="middle" font-size="11" fill="#5a6472">District administrator</text>
+
+    <rect x="1150" y="292" width="220" height="90" rx="6" fill="#f4f6f8" stroke="#d8dee4"/>
+    <text x="1162" y="312" font-size="11.5" font-weight="bold" fill="#3d4753">What happens</text>
+    <text x="1162" y="330" font-size="10.5" fill="#5a6472">District evaluates the PL</text>
+    <text x="1162" y="345" font-size="10.5" fill="#5a6472">investment and makes a</text>
+    <text x="1162" y="360" font-size="10.5" fill="#5a6472">renewal decision</text>
+
+    <rect x="1150" y="392" width="220" height="100" rx="6" fill="#fdf2f2" stroke="#e0aeae"/>
+    <text x="1162" y="412" font-size="11.5" font-weight="bold" fill="#8a2c2c">Friction</text>
+    <text x="1162" y="430" font-size="10.5" fill="#5a2020">Most consistent signal is</text>
+    <text x="1162" y="445" font-size="10.5" fill="#5a2020">satisfaction data — standardized</text>
+    <text x="1162" y="460" font-size="10.5" fill="#5a2020">implementation progress data</text>
+    <text x="1162" y="475" font-size="10.5" fill="#5a2020">isn't consistently available</text>
+  </g>
+
+  <!-- Synthesis callout -->
+  <rect x="30" y="520" width="1340" height="130" rx="10" fill="#f7f3e8" stroke="#b28a2f" stroke-width="2"/>
+  <text x="700" y="552" text-anchor="middle" font-size="15.5" font-weight="bold" fill="#7a5f1f">Synthesis: partial views that never accumulate</text>
+  <text x="700" y="580" text-anchor="middle" font-size="12.5" fill="#5a4a1a">Each stakeholder engages implementation from a different vantage point — teachers implement it, school leaders shape</text>
+  <text x="700" y="600" text-anchor="middle" font-size="12.5" fill="#5a4a1a">conditions around it, facilitators observe it, district leaders fund and monitor it. Stages are connected operationally,</text>
+  <text x="700" y="620" text-anchor="middle" font-size="12.5" fill="#5a4a1a">each following the last — but what's observed at one stage rarely shapes what happens next. This is a structural property</text>
+  <text x="700" y="640" text-anchor="middle" font-size="12.5" fill="#5a4a1a">of how the service is organized, not a failure attributable to any single stakeholder.</text>
+
+  <!-- Footer -->
+  <text x="700" y="710" text-anchor="middle" font-size="13" fill="#8a94a1">Source: Section 3, User Analysis — Implementation Lifecycle — i-Ready Classroom Mathematics Professional Learning teardown</text>
+</svg>
