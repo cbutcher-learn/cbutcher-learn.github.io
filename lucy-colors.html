@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lucy Colors — Christian Butcher</title>
+  <meta name="description" content="Lucy Colors: a rapid prototyping experiment. An offline, toddler-proof coloring app built for my daughter, shaped by fast build-test-learn cycles." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&family=EB+Garamond:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================================================
+       TOKENS — matches index.html
+    ============================================================ */
+    :root {
+      --color-bg:        #F2EFE9;
+      --color-navy:      #1E2D4A;
+      --color-rust:      #C0502A;
+      --color-gold:      #D4A017;
+      --color-green:     #4A7C59;
+      --color-text:      #2A2A2A;
+      --color-muted:     #6B6B6B;
+      --color-card-bg:   #ECEAE4;
+      --color-card-bg2:  #F5F3EE;
+
+      --font-body:       'Inter', sans-serif;
+      --font-display:    'Playfair Display', serif;
+
+      --max-width:       1100px;
+      --nav-height:      64px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-height);
+      background: var(--color-bg);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      z-index: 100;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    .nav-logo img { height: 40px; width: auto; }
+    .nav-links { display: flex; align-items: center; gap: 8px; }
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--color-navy);
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: background 0.15s;
+    }
+    .nav-links a:hover { background: rgba(0,0,0,0.06); }
+    .btn-reach-out {
+      background: var(--color-navy);
+      color: white !important;
+      padding: 9px 18px !important;
+      border-radius: 8px !important;
+      font-size: 13px !important;
+      font-weight: 600 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.06em !important;
+      transition: opacity 0.15s !important;
+    }
+    .btn-reach-out:hover { opacity: 0.85 !important; background: var(--color-navy) !important; }
+
+    /* PROJECT HERO */
+    .project-hero {
+      padding: calc(var(--nav-height) + 56px) 40px 70px;
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 28px;
+      transition: color 0.15s;
+    }
+    .back-link:hover { color: var(--color-navy); }
+    .back-link svg { width: 14px; height: 14px; }
+
+    .project-eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--color-green);
+      margin-bottom: 18px;
+    }
+
+    .project-title {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: clamp(36px, 5vw, 58px);
+      line-height: 1.1;
+      color: var(--color-navy);
+      max-width: 820px;
+      margin-bottom: 8px;
+    }
+    .project-title .accent-rust {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 700;
+      color: var(--color-rust);
+    }
+
+    .project-dek {
+      font-size: 19px;
+      color: var(--color-muted);
+      max-width: 640px;
+      line-height: 1.65;
+      margin-top: 20px;
+      margin-bottom: 40px;
+    }
+
+    .project-hero-actions { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 56px; }
+
+    /* Meta strip */
+    .meta-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      border-top: 1px solid rgba(0,0,0,0.1);
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+      padding: 28px 0;
+      margin-bottom: 0;
+    }
+    .meta-item .meta-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 8px;
+    }
+    .meta-item .meta-value {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--color-navy);
+      line-height: 1.4;
+    }
+
+    /* Hero image */
+    .project-hero-image {
+      margin-top: 56px;
+      border-radius: 20px;
+      overflow: hidden;
+      background: #F6C453;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 64px;
+    }
+    .project-hero-image img { width: 220px; height: 220px; }
+
+    /* SECTIONS */
+    .p-section { padding: 80px 40px; }
+    .p-container { max-width: 760px; margin: 0 auto; }
+    .p-container.wide { max-width: var(--max-width); }
+
+    .p-eyebrow {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-green);
+      margin-bottom: 14px;
+    }
+    .p-heading {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: clamp(24px, 2.6vw, 32px);
+      color: var(--color-navy);
+      margin-bottom: 22px;
+      line-height: 1.25;
+    }
+    .p-body p {
+      font-size: 17px;
+      color: var(--color-text);
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+    .p-body p:last-child { margin-bottom: 0; }
+
+    .pull-quote {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(20px, 2.4vw, 26px);
+      color: var(--color-rust);
+      line-height: 1.5;
+      border-left: 3px solid var(--color-rust);
+      padding-left: 24px;
+      margin: 12px 0 32px;
+    }
+
+    /* Requirements grid */
+    .req-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+    .req-card {
+      background: var(--color-card-bg);
+      border-radius: 14px;
+      padding: 24px 26px;
+    }
+    .req-card .req-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--color-navy);
+      margin-bottom: 8px;
+    }
+    .req-card .req-desc {
+      font-size: 14px;
+      color: var(--color-muted);
+      line-height: 1.6;
+    }
+
+    /* Iteration cards (alternating) */
+    .iteration {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+    .iteration:last-child { margin-bottom: 0; }
+    .iteration-num {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 700;
+      font-size: 40px;
+      color: var(--color-gold);
+      line-height: 1;
+    }
+    .iteration-body .iteration-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 10px;
+    }
+    .iteration-body h3 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--color-navy);
+      margin-bottom: 10px;
+    }
+    .iteration-body p {
+      font-size: 16px;
+      color: var(--color-text);
+      line-height: 1.75;
+    }
+
+    .section-alt { background: #EAE7E0; }
+
+    /* CTA */
+    .cta-section {
+      background: var(--color-navy);
+      padding: 90px 40px;
+      text-align: center;
+    }
+    .cta-headline {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: clamp(28px, 3.6vw, 46px);
+      color: white;
+      line-height: 1.2;
+      margin-bottom: 18px;
+    }
+    .cta-headline .accent-gold {
+      font-family: var(--font-display);
+      font-style: italic;
+      color: var(--color-gold);
+    }
+    .cta-sub {
+      font-size: 16px;
+      color: rgba(255,255,255,0.65);
+      max-width: 480px;
+      margin: 0 auto 40px;
+      line-height: 1.6;
+    }
+    .cta-actions { display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; }
+    .btn-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: white;
+      color: var(--color-navy);
+      font-size: 15px;
+      font-weight: 600;
+      padding: 13px 24px;
+      border-radius: 30px;
+      transition: opacity 0.15s;
+    }
+    .btn-cta:hover { opacity: 0.88; }
+    .btn-cta-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: transparent;
+      border: 1.5px solid rgba(255,255,255,0.5);
+      color: white;
+      font-size: 15px;
+      font-weight: 600;
+      padding: 13px 24px;
+      border-radius: 30px;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .btn-cta-outline:hover { background: rgba(255,255,255,0.1); border-color: white; }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--color-navy);
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 12px 22px;
+      border-radius: 8px;
+      transition: opacity 0.15s;
+    }
+    .btn-primary:hover { opacity: 0.82; }
+    .btn-primary svg { width: 16px; height: 16px; }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--color-navy);
+      font-size: 14px;
+      font-weight: 600;
+      padding: 11px 20px;
+      border-radius: 8px;
+      border: 1.5px solid var(--color-navy);
+      transition: background 0.15s, color 0.15s;
+    }
+    .btn-secondary:hover { background: var(--color-navy); color: white; }
+
+    /* FOOTER */
+    footer {
+      background: var(--color-navy);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 24px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-copy { font-size: 13px; color: rgba(255,255,255,0.45); }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a { font-size: 13px; color: rgba(255,255,255,0.45); transition: color 0.15s; }
+    .footer-links a:hover { color: white; }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; }
+      .project-hero { padding: calc(var(--nav-height) + 36px) 20px 50px; }
+      .p-section { padding: 56px 20px; }
+      .meta-strip { grid-template-columns: repeat(2, 1fr); }
+      .req-grid { grid-template-columns: 1fr; }
+      .iteration { grid-template-columns: 1fr; gap: 8px; }
+      .project-hero-image { padding: 40px; }
+      .project-hero-image img { width: 140px; height: 140px; }
+      footer { padding: 20px; flex-direction: column; gap: 12px; text-align: center; }
+      .nav-links a:not(.btn-reach-out) { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <img src="assets/CB_Logo_(1)_1778781521551-DI4tMfjY.png" alt="CB" />
+    </a>
+    <div class="nav-links">
+      <a href="index.html#work">Work</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#contact" class="btn-reach-out">Reach Out</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="project-hero">
+    <a href="index.html#work" class="back-link">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 8H3M7 4L3 8l4 4"/></svg>
+      Back to all work
+    </a>
+
+    <p class="project-eyebrow">Rapid Prototyping Experiment</p>
+    <h1 class="project-title">Lucy Colors: what a <span class="accent-rust">week of building for a two-year-old</span> taught me about product discovery.</h1>
+    <p class="project-dek">A free, offline, toddler-proof coloring app I designed, built, and shipped for my daughter — using my own kid as a live usability panel, and a handful of rapid build-test-learn cycles instead of a spec.</p>
+
+    <div class="project-hero-actions">
+      <a href="https://christianbutcher.com/little-colors/" target="_blank" rel="noopener" class="btn-primary">
+        Try the live app
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+      </a>
+      <a href="index.html#contact" class="btn-secondary">Get in touch →</a>
+    </div>
+
+    <div class="meta-strip">
+      <div class="meta-item">
+        <div class="meta-label">Role</div>
+        <div class="meta-value">Product owner, designer, builder</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Tools</div>
+        <div class="meta-value">Claude, GitHub Pages</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">User</div>
+        <div class="meta-value">One very opinionated toddler</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Method</div>
+        <div class="meta-value">Build → test → learn, on repeat</div>
+      </div>
+    </div>
+
+    <div class="project-hero-image">
+      <img src="images/lucy-colors-icon.png" alt="Lucy Colors app icon" />
+    </div>
+  </section>
+
+  <!-- THE PROBLEM -->
+  <section class="p-section">
+    <div class="p-container">
+      <p class="p-eyebrow">The Problem</p>
+      <h2 class="p-heading">My toddler loves to color. The apps for that didn't love her back.</h2>
+      <div class="p-body">
+        <p>My daughter goes through coloring pages the way most kids go through snacks — fast, and she wants more of her favorites. I wanted an iPad app that could keep up: something she could open independently, color freely, and where I could drop in whatever image or PDF I wanted her to color — a page from her own book, a photo of her cousin, a drawing she'd made that morning.</p>
+        <p>I couldn't find one. Every coloring app I tried was either locked to a fixed library of clip art, required an internet connection and an account, or wanted a subscription to unlock the one feature I actually needed. None of them were built to be handed to a toddler and left alone.</p>
+        <p>So the requirements weren't really a feature list — they were a set of constraints that had to be true at the same time.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- REQUIREMENTS -->
+  <section class="p-section section-alt">
+    <div class="p-container wide">
+      <p class="p-eyebrow">The Constraints</p>
+      <h2 class="p-heading">What "good enough for a two-year-old, unsupervised" actually meant</h2>
+      <div class="req-grid">
+        <div class="req-card">
+          <div class="req-title">Works offline</div>
+          <div class="req-desc">No wifi in the car, no account to sign into, no loading spinner between her and the crayons.</div>
+        </div>
+        <div class="req-card">
+          <div class="req-title">Lockable on one screen</div>
+          <div class="req-desc">Guided Access on, so a curious tap can't exit into the App Store or her sister's photos.</div>
+        </div>
+        <div class="req-card">
+          <div class="req-title">My content, not a library</div>
+          <div class="req-desc">I upload the images and PDFs — coloring books we own, pages she's already invested in — not a generic pack of clip art.</div>
+        </div>
+        <div class="req-card">
+          <div class="req-title">Usable without me</div>
+          <div class="req-desc">Simple enough that she could pick a color, pick a page, and start — no reading, no menus to get lost in.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BUILDING -->
+  <section class="p-section">
+    <div class="p-container">
+      <p class="p-eyebrow">The Approach</p>
+      <h2 class="p-heading">Prototyping with Claude, and testing on the only user who mattered</h2>
+      <div class="p-body">
+        <p>I built the first working version with Claude in an afternoon, treating it less like a spec-and-build project and more like a conversation: describe the constraint, get a working prototype, hand it to my daughter, watch what happened, and go again. There was no roadmap document — the roadmap was whatever broke during the next coloring session.</p>
+        <p>That loop mattered more than any individual feature. A two-year-old is an unforgiving usability panel: she doesn't rationalize a bad interaction or push through friction to be polite. If something didn't work, she'd abandon it in seconds, and I'd know exactly where to look.</p>
+      </div>
+      <p class="pull-quote">The fastest way to find out what a product actually needs is to put it in front of someone who has zero patience for what it doesn't.</p>
+    </div>
+  </section>
+
+  <!-- ITERATIONS -->
+  <section class="p-section section-alt">
+    <div class="p-container">
+      <p class="p-eyebrow">Two Things Testing Surfaced</p>
+      <h2 class="p-heading">What I learned only by watching her use it</h2>
+
+      <div class="iteration">
+        <div class="iteration-num">01</div>
+        <div class="iteration-body">
+          <div class="iteration-label">Touch mechanism</div>
+          <h3>Her off hand was the bug I didn't know to look for</h3>
+          <p>Early on, she'd rest part of her off hand against the screen while coloring — a completely natural way for a toddler to steady herself. But that stray contact was registering as touch input, which meant her strokes went haywire or her color and tool selections got hijacked mid-stroke. This wasn't something I could have anticipated from a desk; it only showed up by watching her actually color. I reworked the touch handling so the app could tell the difference between an incidental resting hand and an intentional coloring stroke, which made the whole experience click for her — she could finally color cleanly and switch tools without a fight.</p>
+        </div>
+      </div>
+
+      <div class="iteration">
+        <div class="iteration-num">02</div>
+        <div class="iteration-body">
+          <div class="iteration-label">Storage & content limits</div>
+          <h3>She colored through my entire content library in one sitting</h3>
+          <p>The first version could only hold a handful of images at a time — plenty, I assumed, for a coloring app. She proved that assumption wrong within a day, blowing through every page I'd loaded and asking for more. I rebuilt the underlying file system to support a much larger library, so I could keep adding new pages — new pictures, new PDFs, new coloring books — without running into a ceiling. What looked like a storage bug was really a signal that the app had found real, repeat engagement.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OUTCOME -->
+  <section class="p-section">
+    <div class="p-container">
+      <p class="p-eyebrow">Where It Landed</p>
+      <h2 class="p-heading">A small app, a real outcome</h2>
+      <div class="p-body">
+        <p>Lucy Colors now lives on our iPad as a genuinely useful tool — a clean, creative way to hold my daughter's attention for a focused stretch when I need one, without a screen full of ads, accounts, or content I didn't choose. It does exactly the narrow job it was built for, because that job was defined by testing, not assumption.</p>
+        <p>It's also given me an unexpected front-row seat to something bigger: watching her learn how to interact with a digital interface at all — what's tappable, what a "tool" is, how cause and effect works on a screen. That's started shaping an idea for a next project, focused more directly on digital readiness and early computer literacy for toddlers. For now, though, this one stays focused on what it does well: crayons, without the chaos.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <h2 class="cta-headline">Curious how it <span class="accent-gold">colors</span>?</h2>
+    <p class="cta-sub">Open it on an iPad for the full experience — upload your own image or PDF and see it in action.</p>
+    <div class="cta-actions">
+      <a href="https://christianbutcher.com/little-colors/" target="_blank" rel="noopener" class="btn-cta">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        Try Lucy Colors
+      </a>
+      <a href="index.html#work" class="btn-cta-outline">See more projects</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p class="footer-copy">&copy; 2026 Christian Butcher. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="https://www.linkedin.com/in/christianbutcher/" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.footer-copy').forEach(el => {
+      el.innerHTML = el.innerHTML.replace('2026', new Date().getFullYear());
+    });
+  </script>
+
+</body>
+</html>
